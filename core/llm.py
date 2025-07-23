@@ -4,8 +4,6 @@ from ..core.api import load_api_key
 from ..core.node import node_path
     
 def call_gemini_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
-  
-    api_key = load_api_key("gemini")
     
     # Configure the API
     genai.configure(api_key=api_key)
