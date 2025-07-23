@@ -1,0 +1,13 @@
+[project]
+name = "ComfyUI-Artha-Gemini"
+description = "ComfyUI custom nodes for interacting with the Gemini api for image and video generation prompting."
+version = "1.0.01"
+license = { file = "LICENSE" }
+
+[project.urls]
+Repository = "https://github.com/Cyrostar/ComfyUI-Artha-Gemini"
+
+[tool.comfy]
+PublisherId = "Cyrostar"
+DisplayName = "ComfyUI-Artha-Gemini"
+Icon = "🔱"
