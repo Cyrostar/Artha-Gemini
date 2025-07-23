@@ -8,7 +8,7 @@ from ...core.llm import load_agent
 
 class GeminiQuestion:
     
-    CATEGORY = "Artha/LLM"
+    CATEGORY = main_cetegory() + "/LLM"
     
     def __init__(self):
         pass
@@ -59,9 +59,9 @@ class GeminiQuestion:
             
             api_key = load_api_key("gemini")
             
-            system_instruction = "You are an intelligent ai asistant."
+        system_instruction = "You are an intelligent ai asistant."
             
-            text_prompt = question
+        text_prompt = question
         
         try:
            
@@ -89,7 +89,7 @@ class GeminiQuestion:
 
 class GeminiTranslate:
     
-    CATEGORY = "Artha/LLM"
+    CATEGORY = main_cetegory() + "/LLM"
     
     def __init__(self):
         pass
@@ -375,7 +375,7 @@ class GeminiMotion:
 
 class GeminiPrompter:
     
-    CATEGORY = "Artha/LLM"
+    CATEGORY = main_cetegory() + "/LLM"
     
     DESCRIPTION = "Gemini Prompter Nodes's objective is to enrich the content of your prompt."
     
@@ -472,7 +472,7 @@ class GeminiPrompter:
 
 class GeminiCondense:
     
-    CATEGORY = "Artha/LLM"
+    CATEGORY = main_cetegory() + "/LLM"
     
     def __init__(self):
         pass
