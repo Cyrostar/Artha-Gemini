@@ -1,7 +1,7 @@
 [project]
 name = "ComfyUI-Artha-Gemini"
 description = "ComfyUI custom nodes for interacting with the Gemini api for image and video generation prompting."
-version = "1.0.01"
+version = "1.0.02"
 license = { file = "LICENSE" }
 
 [project.urls]
