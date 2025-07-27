@@ -20,3 +20,4 @@ file located in the ComfyUI/custom_nodes/ComfyUI-Artha-Gemini folder.
 Alternatively, you can enter it directly into the custom node's api_key field, 
 but be aware that it will be visible in plain text.
 
+You may also choose to define **GEMINI_API_KEY** as a global variable.
