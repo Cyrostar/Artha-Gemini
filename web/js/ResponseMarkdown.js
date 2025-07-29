@@ -104,6 +104,9 @@ app.registerExtension({
 					html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
 					html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
 					html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
+					
+					// Horizontal rule
+					html = html.replace(/^\s*(\-{3,}|\*{3,}|_{3,})\s*$/gm, '<hr>');
 
 					// Handle strikethrough
 					html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
