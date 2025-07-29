@@ -9,6 +9,6 @@ dependencies = ["torch", "numpy", "Pillow>=11.0.0", "google-generativeai"]
 Repository = "https://github.com/Cyrostar/ComfyUI-Artha-Gemini"
 
 [tool.comfy]
-PublisherId = "Cyrostar"
+PublisherId = "cyrostar"
 DisplayName = "ComfyUI-Artha-Gemini"
 Icon = "🔱"
