@@ -4,4 +4,4 @@ WEB_DIRECTORY = "web/js"
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS', "WEB_DIRECTORY"]
 
-__version__ = "1.0.03"
+__version__ = "1.1.0"
