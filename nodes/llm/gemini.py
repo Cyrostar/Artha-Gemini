@@ -263,7 +263,7 @@ class GeminiTranslate:
             return (response,)
                   
         system_instruction = "Translate the given text from " + lang_from + " to " + lang_to + "."
-        system_instruction = "Begin your output directly without any introductory sentence or summary phrase. "
+        system_instruction += "Begin your output directly without any introductory sentence or summary phrase. "
             
         text_prompt = text
         
