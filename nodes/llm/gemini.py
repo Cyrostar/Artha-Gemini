@@ -1,3 +1,5 @@
+import os
+
 from ...core.node import node_prefix, main_cetegory
 from ...core.api import load_api_key
 from ...core.img import tensor_to_pil_image, resize_image_shortest
@@ -54,14 +56,119 @@ class GeminiQuestion:
     
     def artha_main(self, question, api_key, model, max_tokens, temperature=0.7):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
             
         system_instruction = "You are an intelligent ai asistant."
             
         text_prompt = question
+        
+        try:
+           
+            image_base64 = None
+            
+            # Call Gemini API
+            response = call_gemini_api(
+                text_prompt,
+                image_base64,  
+                system_instruction,
+                api_key, 
+                model, 
+                max_tokens, 
+                temperature
+            )
+            
+            return (response,)
+            
+        except Exception as e:
+            error_msg = f"Error processing request: {str(e)}"
+            print(error_msg)
+            return (error_msg,)
+            
+################################################# 
+
+class GeminiOperation:
+    
+    CATEGORY = main_cetegory() + "/LLM"
+    
+    def __init__(self):
+        pass
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "source": ("STRING", {
+                    "multiline": True,
+                    "default": "A cat with a hat"
+                }),
+                "instruction": ("STRING", {
+                    "multiline": True,
+                    "default": "Change cat to dog"
+                }),
+                "api_key": ("STRING", {
+                    "multiline": False,
+                    "default": "",
+                    "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
+                }),
+                "model": (["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"], {
+                    "default": "gemini-2.5-flash"
+                }),
+                "max_tokens": ("INT", {
+                    "default": 2000,
+                    "min": 1,
+                    "max": 8192,
+                    "step": 1,
+                    "tooltip": "For Gemini models, a token is equivalent to about 4 characters. 100 tokens is equal to about 60-80 English words."
+                }),
+            },
+            "optional": {
+                "temperature": ("FLOAT", {
+                    "default": 0.7,
+                    "min": 0.0,
+                    "max": 2.0,
+                    "step": 0.1,
+                    "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
+                }),              
+            },                
+        }
+        
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("response",)
+    FUNCTION = "artha_main"
+    
+    def artha_main(self, source, instruction, api_key, model, max_tokens, temperature=0.7):
+            
+        response = None
+        
+        # Validate API key       
+        if not api_key:
+            
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
+            
+        system_instruction = "Role: You are an intelligent ai asistant. \n\n"
+        system_instruction += "Task: You will perform the given action on the text prompt.\n\n"
+        system_instruction += "Action: " + instruction
+            
+        text_prompt = source
         
         try:
            
@@ -141,12 +248,22 @@ class GeminiTranslate:
     
     def artha_main(self, text, lang_from, lang_to, api_key, model, max_tokens, temperature=0.7):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
                   
         system_instruction = "Translate the given text from " + lang_from + " to " + lang_to + "."
+        system_instruction = "Begin your output directly without any introductory sentence or summary phrase. "
             
         text_prompt = text
         
@@ -214,7 +331,7 @@ class GeminiVision:
                     "step": 0.1,
                     "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
                 }),
-                "system_instruction": ("STRING", {
+                "system_instruction": ("ARTHAINSTRUCT", {
                     "forceInput": True,
                     "multiline": True
                 }),                
@@ -227,10 +344,19 @@ class GeminiVision:
     
     def artha_main(self, image, text_prompt, api_key, model, max_tokens, temperature=0.7, system_instruction=""):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
         
         if not system_instruction:
             
@@ -306,7 +432,7 @@ class GeminiMotion:
                     "step": 0.1,
                     "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
                 }),
-                "system_instruction": ("STRING", {
+                "system_instruction": ("ARTHAINSTRUCT", {
                     "forceInput": True,
                     "multiline": True
                 }),                
@@ -319,10 +445,19 @@ class GeminiMotion:
     
     def artha_main(self, image, text_prompt, resize, api_key, model, max_tokens, temperature=0.7, system_instruction=""):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
         
         if not system_instruction:
             
@@ -418,7 +553,7 @@ class GeminiPrompter:
                     "step": 0.1,
                     "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
                 }),
-                "system_instruction": ("STRING", {
+                "system_instruction": ("ARTHAINSTRUCT", {
                     "forceInput": True,
                     "multiline": True
                 }),                
@@ -431,10 +566,19 @@ class GeminiPrompter:
     
     def artha_main(self, text_prompt, media, api_key, model, max_tokens, temperature=0.7, system_instruction=""):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
         
         if not system_instruction:
             
@@ -526,10 +670,19 @@ class GeminiCondense:
     
     def artha_main(self, text_prompt, max_words, api_key, model, max_tokens, temperature=0.7):
             
-        # Validate API key
+        response = None
+        
+        # Validate API key       
         if not api_key:
             
-            api_key = load_api_key("gemini")
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
                 
         system_instruction = "Role: You are a master of conciseness, understanding that every word carries weight and "
         system_instruction += "that unnecessary complexity can confuse AI image generators. Your expertise includes a "
@@ -570,19 +723,21 @@ class GeminiCondense:
 
 # Required mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
-    "GeminiQuestion": GeminiQuestion,
-    "GeminiTranslate": GeminiTranslate,
-    "GeminiPrompter": GeminiPrompter,
-    "GeminiCondense": GeminiCondense,
-    "GeminiVision": GeminiVision,
-    "GeminiMotion": GeminiMotion     
+    "Gemini Question": GeminiQuestion,
+    "Gemini Operation": GeminiOperation,
+    "Gemini Translate": GeminiTranslate,
+    "Gemini Prompter": GeminiPrompter,
+    "Gemini Condense": GeminiCondense,
+    "Gemini Vision": GeminiVision,
+    "Gemini Motion": GeminiMotion     
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "GeminiQuestion": node_prefix() + " Gemini Question",
-    "GeminiTranslate": node_prefix() + " Gemini Translate",
-    "GeminiPrompter": node_prefix() + " Gemini Prompter", 
-    "GeminiCondense": node_prefix() + " Gemini Condense", 
-    "GeminiVision": node_prefix() + " Gemini Vision",
-    "GeminiMotion": node_prefix() + " Gemini Motion"      
+    "Gemini Question": node_prefix() + " Gemini Question",
+    "Gemini Operation": node_prefix() + " Gemini Operation",
+    "Gemini Translate": node_prefix() + " Gemini Translate",
+    "Gemini Prompter": node_prefix() + " Gemini Prompter", 
+    "Gemini Condense": node_prefix() + " Gemini Condense", 
+    "Gemini Vision": node_prefix() + " Gemini Vision",
+    "Gemini Motion": node_prefix() + " Gemini Motion"      
 }

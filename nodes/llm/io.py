@@ -38,6 +38,39 @@ class GeminiResponse:
         "ui": {"response": [response]}, 
         "result": (response,)
         }
+        
+#################################################
+
+class GeminiMarkdown:
+    
+    CATEGORY = main_cetegory() + "/LLM"
+    
+    DESCRIPTION = "Displays markdown text."
+    
+    def __init__(self):
+        pass
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "response": ("STRING", {"forceInput": True}),
+            },
+        }
+    
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("response",)
+    FUNCTION = "artha_main"
+    OUTPUT_NODE = True
+
+    def artha_main(self, response):
+        
+        response = str(response)
+       
+        return {
+        "ui": {"response": [response]}, 
+        "result": (response,)
+        }
                        
 #################################################
 
@@ -69,7 +102,7 @@ class GeminiInstruct:
             },
         }
     
-    RETURN_TYPES = ("STRING",)
+    RETURN_TYPES = ("ARTHAINSTRUCT",)
     RETURN_NAMES = ("system_instruction",)
     FUNCTION = "artha_main"
 
@@ -82,17 +115,18 @@ class GeminiInstruct:
         system_instruction = "Role: " + str(role) + "\n\n" + "Task: " + str(task) + "\n\n" + str(instructions)
        
         return (system_instruction,)
-
                        
 #################################################
 
 # Required mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
-    "GeminiResponse": GeminiResponse,
-    "GeminiInstruct": GeminiInstruct
+    "Gemini Response":  GeminiResponse,
+    "Gemini Markdown":  GeminiMarkdown,
+    "Gemini Instruct":  GeminiInstruct
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "GeminiResponse": node_prefix() + " Gemini Response",
-    "GeminiInstruct": node_prefix() + " Gemini Instruct"
+    "Gemini Response":  node_prefix() + " Gemini Response",
+    "Gemini Markdown":  node_prefix() + " Gemini Markdown",
+    "Gemini Instruct":  node_prefix() + " Gemini Instruct"
 }

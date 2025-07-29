@@ -1,0 +1,358 @@
+{
+	"HEAD": {
+		"HEAD_TYPES": {
+			"SMALL HEADED": "Head smaller compared to the body",
+			"AVERAGE PROPOTION": "About 1/7–1/8 of the body height",
+			"LARGE HEADED": "Head larger relative to the body"
+		}
+	},
+	"HAIR": {
+		"HAIR_COLORS": {
+			"BLACK": 			"Black hair",
+			"BROWN": 			"Brown hair",
+			"DARK BROWN": 		"Dark-brown hair",
+			"MEDIUM BROWN": 	"Medium-brown hair",
+			"LIGHT BROWN": 		"Light-brown hair",
+			"BLONDE": 			"Blonde hair",
+			"DARK BLONDE": 		"Dark-blonde hair",
+			"MEDIUM BLONDE":	"Medium-blonde hair",
+			"LIGHT BLONDE": 	"Light-blonde hair",
+			"RED": 				"Red hair",
+			"GRAY": 			"Gray hair",
+			"WHITE": 			"White hair"
+		},
+		"HAIR_LENGTHS": {
+			"BALD": 		"No hair",
+			"VERY SHORT": 	"Very short hair",
+			"SHORT": 		"Short hair",
+			"MEDIUM": 		"Mid-length hair",
+			"LONG": 		"Long hair",
+			"VERY LONG": 	"Lush long hair"
+		},
+		"HAIR_STYLES_FEMININE": {
+			"BALD": "No hair",
+			"STRAIGHT": "Straight hair",
+			"WAVY": "Wavy hair",
+			"CURLY": "Curly hair",
+			"COILY": "Coily hair",
+			"AFRO": "Afro hair",
+			"SHORT PIXIE CUT": "Pixie cut",
+			"SHORT BOB": "Bob haircut",
+			"SHORT LOB": "Lob haircut",
+			"SHORT UNDERCUT": "Undercut style",
+			"SHORT SHAGGY CROP": "Shaggy crop cut",
+			"MEDIUM LAYERED SHOULDER LENGTH": "Layered shoulder length hair",
+			"MEDIUM BLUNT CUT": "Blunt cut at medium length",
+			"MEDIUM CURTAIN BANGS": "Medium hair with curtain bangs",
+			"MEDIUM WAVY LOB": "Wavy long bob",
+			"MEDIUM TEXTURED SHAG": "Textured shag cut",
+			"LONG STRAIGHT LONG HAIR": "Straight long hair",
+			"LONG LONG LAYERS": "Long layered hair",
+			"LONG BEACH WAVES": "Long hair with beach waves",
+			"LONG FACE FRAMING LAYERS": "Long hair with face framing layers",
+			"LONG V-CUT": "Long hair with V-cut",
+			"UPDO PONYTAIL": "Ponytail",
+			"UPDO CHIGNON": "Chignon updo",
+			"UPDO BUN": "Hair bun",
+			"UPDO FRENCH TWIST": "French twist",
+			"UPDO BRAIDS": "Braided hairstyle",
+			"UPDO HALF-UP HALF-DOWN": "Half-up half-down style",
+			"UPDO MOHAWK": "Mohawk style"
+		},
+		"HAIR_STYLES_MASCULINE": {
+			"BALD": "No hair",
+			"STRAIGHT": "Straight hair",
+			"WAVY": "Wavy hair",
+			"CURLY": "Curly hair",
+			"COILY": "Coily hair",
+			"AFRO": "Afro hair",
+			"SHORT BUZZ CUT": "Buzz cut, very short, uniform length hair",
+			"SHORT CREW CUT": "Crew cut, short on sides, slightly longer on top hair",
+			"SHORT IVY LEAGUE": "Ivy league, short on sides, longer on top hair",
+			"SHORT HIGH AND TIGHT": "High and tight, very short sides with a tight top hair",
+			"SHORT CAESAR CUT": "Caesar cut, hhort fringe with even length on top and sides hair",
+			"MEDIUM Pompadour": "Layered shoulder length hair",
+			"MEDIUM Quiff": "Blunt cut at medium length",
+			"MEDIUM Side Part": "Medium hair with curtain bangs",
+			"MEDIUM Comb Over": "Wavy long bob",
+			"MEDIUM Textured Crop": "Textured shag cut",
+			"LONG Bro Flow": "Straight long hair",
+			"LONG Man Bun": "Long layered hair",
+			"LONG Shoulder-Length Layers": "Long hair with beach waves",
+			"LONG Surfer Hair": "Long hair with face framing layers",
+			"UPDO PONYTAIL": "Ponytail",
+			"UPDO CHIGNON": "Chignon updo",
+			"UPDO BUN": "Hair bun",
+			"UPDO FRENCH TWIST": "French twist",
+			"UPDO BRAIDS": "Braided hairstyle",
+			"UPDO HALF-UP HALF-DOWN": "Half-up half-down style",
+			"UPDO MOHAWK": "Mohawk style"
+		}
+	},
+	"FACE": {
+		"FACE_APPEAL": {
+			"VERY ATTRACTIVE": "Exceptional facial symmetry, glowing skin, fit body, excellent grooming, and high visual impact.",
+			"ATTRACTIVE": "Pleasing and harmonious features, expressive eyes and smile, healthy skin and hair, socially appealing overall appearance.",
+			"AVERAGE": "Neutral, unremarkable features that are neither especially emphasized nor unattractive. The majority of people fall into this category.",
+			"BELOW AVERAGE": "Features that deviate somewhat from conventional beauty norms, such as pronounced asymmetry, skin conditions, or proportion imbalances.",
+			"UNATTRACTIVE": "Strong visual deviations from accepted beauty standards, including significant asymmetry, disfigurement, or neglected appearance."
+		},
+		"FACE_AGE": {
+			"BABY": "0 – 1 year old",
+			"TODDLER": "1 – 3 years old",
+			"TWEEN": "9 – 12 years old",
+			"TEEN": "13 – 19 years old",
+			"EARLY TWENTIES": "20 – 24 years old",
+			"ADULT": "25 – 39 years old",
+			"MIDDLE AGED": "40 – 59 years old",
+			"ELDERLY": "70+ years old",
+			"OLD": "75+ years old",
+			"ANCIENT": "100+ years old"
+		},
+		"FACE_SHAPES": {
+			"OVAL": "Oval face shape",
+			"ROUND": "Round face shape",
+			"SQUARE": "Square face shape",
+			"OBLONG": "Oblong face shape",
+			"HEART": "Heart face shape",
+			"TRIANGLE": "Triangle face shape",
+			"DIAMOND": "Diamond face shape"
+		},
+		"EYEBROW_TYPES": {
+			"THIN": "Thin eyebrows",
+			"MEDIUM": "Medium thickness eyebrows",
+			"THICK": "Thick eyebrows"
+		},
+		"EYEBROW_SHAPES": {
+			"ROUND": "Round eyebrow shape",
+			"FLAT": "Flat eyebrow shape",
+			"S-SHAPED": "S-shaped eyebrows",
+			"HARD ANGLED": "Hard angled eyebrows",
+			"SOFT ANGLED": "Soft angled eyebrows"
+		},
+		"EYE_TYPES": {
+			"ROUND": "Round eyes",
+			"ALMOND": "Almond-shaped eyes",
+			"DROOPY": "Droopy eyes",
+			"HOODED": "Hooded eyes",
+			"ASIAN": "Asian eye shape",
+			"UPTURNED": "Upturned eyes",
+			"DOWNTURNED": "Downturned eyes",
+			"MONOLID": "Monolid eyes",
+			"CLOSE-SET": "Close-set eyes",
+			"WIDE-SET": "Wide-set eyes"
+		},
+		"EYE_SIZES": {
+			"NORMAL": "Normal sized eyes",
+			"BIG": "Big eyes",
+			"SMALL": "Small eyes"
+		},
+		"EYE_COLORS": {
+			"BROWN": "Brown eyes",
+			"BLUE": "Blue eyes",
+			"HAZEL": "Hazel eyes",
+			"GREEN": "Green eyes",
+			"GRAY": "Gray eyes",
+			"AMBER": "Amber eyes"
+		},
+		"NOSE_TYPES": {
+			"GREEK": "Greek nose",
+			"ROMAN": "Roman nose",
+			"BUTTON": "Button nose",
+			"SNUB": "Snub nose",
+			"NUBIAN": "Nubian nose",
+			"HAWK": "Hawk nose",
+			"CELESTIAL": "Celestial nose",
+			"FLAT": "Flat nose",
+			"BULBOUS": "Bulbous nose",
+			"FLESHY": "Fleshy nose"
+		},
+		"LIP_TYPES": {
+			"FULL": "Full lips",
+			"WIDE": "Wide lips",
+			"ROUND": "Round lips",
+			"THIN": "Thin lips",
+			"OVAL SHAPED": "Oval shaped lips",
+			"BOW SHAPED": "Bow shaped lips",
+			"HEART SHAPED": "Heart shaped lips"
+		},
+		"LIP_COLORS": {
+			"NATUREL": "Natural lip color",
+			"NUDE BEIGE": "Nude beige lips",
+			"NUDE PINK": "Nude pink lips",
+			"PEACHY NUDE": "Peachy nude lips",
+			"SOFT PINK": "Soft pink lips",
+			"ROSE PINK": "Rose pink lips",
+			"MAUVE": "Mauve lips",
+			"CLASSIC RED": "Classic red lips",
+			"WARM RED": "Warm red lips",
+			"BERRY": "Berry colored lips"
+		},
+		"EAR_TYPES": {
+			"ROUND": "Round, smooth and curved outer helix ears",
+			"OVAL": "Oval, elongated vertical shape ears",
+			"ELF": "Elf, the top of the ear ends in a subtle or pronounced point ears"
+		},
+		"CHEEK_TYPES": {
+			"HIGH CHEEKBONES": "High cheekbones",
+			"LOW CHEEKBONES": "Low cheekbones",
+			"ROUNDED CHEEKS": "Rounded cheeks",
+			"HOLLOW CHEEKS": "Hollow cheeks",
+			"CHISELED CHEEKS": "Chiseled cheeks",
+			"FLAT CHEEKS": "Flat cheeks"
+		},
+		"CHIN_TYPES": {
+			"STRAIGHT": "Straight chin",
+			"CLEFT": "Cleft chin"
+		}
+	},
+	"BODY": {
+		"BODY_TYPES": {
+			"ECTOMORPH": "Ectomorph body type",
+			"MESOMORPH": "Mesomorph body type",
+			"ENDOMORPH": "Endomorph body type",
+			"PEAR": "Pear body shape",
+			"APPLE": "Apple body shape",
+			"HOURGLASS": "Hourglass body shape",
+			"RECTANGLE": "Rectangle body shape",
+			"INVERTED_TRIANGLE": "Inverted triangle body shape"
+		},
+		"BUILD": {
+			"SLIM": "Slim build",
+			"ATHLETIC": "Athletic build",
+			"MUSCULAR": "Muscular build",
+			"AVERAGE": "Average build",
+			"CURVY": "Curvy build",
+			"HEAVY": "Heavy build",
+			"PETITE": "Petite build",
+			"TALL": "Tall build"
+		},
+		"SHOULDER": {
+			"REGULAR": "Regular shoulder build",
+			"BROAD": "Broad shoulder build",
+			"NARROW": "Narrow shoulder build",
+			"SLOPING": "Sloaping shoulder build"
+		},
+		"CHEST": {
+			"BROAD CHEST": "Wide rib cage, often associated with athletic or larger frames.",
+			"NARROW CHEST": "Smaller rib cage width, breasts may appear closer together or more projected.",
+			"BARREL CHEST": "Rib cage is deeper front-to-back, creating a rounder chest contour.",
+			"FLAT CHEST": "Minimal breast tissue, flat chest wall appearance."
+		},
+		"BREASTS": {
+			"ROUND": "Equally full on top and bottom, balanced and circular appearance.",
+			"TEARDROP": "Fuller at the bottom, gently tapering toward the top.",
+			"BELL-SHAPED": "Narrower at the top and significantly fuller at the bottom.",
+			"SIDE SET": "Space between the breasts; nipples point slightly outward.",
+			"CLOSE SET": "Breasts sit close together with little space in the center.",
+			"ASYMMETRIC": "Noticeable size or shape difference between the two breasts.",
+			"EAST-WEST": "Nipples point outward to the sides; breasts angle away from the center.",
+			"SLENDER": "Narrower width and longer length, less tissue on top.",
+			"ATHLETIC": "Wider base, more muscular tissue, firmer appearance.",
+			"RELAXED": "Softer tissue with nipples pointing downward.",
+			"PROJECTED": "Breasts project prominently forward from the chest wall.",
+			"SHALLOW": "Less depth in profile, flatter appearance.",
+			"FULL TOP": "More fullness in the upper portion of the breast.",
+			"FULL BOTTOM": "More fullness in the lower portion of the breast.",
+			"CONICAL": "Cone-shaped rather than round.",
+			"TUBULAR": "Narrow base, elongated shape, and larger areola.",
+			"PIGEON BREAST": "Breastbone prominence affecting the breast position."
+		},
+		"TORSO": {
+			"SHORT TORSO": "Short vertical distance from shoulders to waist, legs appear longer.",
+			"LONG TORSO": "Long vertical distance from shoulders to waist, legs appear shorter.",
+			"BALANCED TORSO": "Shoulders-to-waist and waist-to-hips are roughly equal proportions.",
+			"NARROW TORSO": "Smaller rib cage and shoulders with a slim upper body frame.",
+			"WIDE TORSO": "Broad rib cage and shoulders, larger upper body appearance.",
+			"TAPERED TORSO": "Shoulders broader than waist, V-shaped silhouette.",
+			"RECTANGULAR TORSO": "Minimal inward waist curve with straight lines from shoulders through hips."
+		},
+		"WAIST": {
+			"DEFINED WAIST": "Noticeable inward curve between the ribs and hips, classic hourglass look.",
+			"STRAIGHT WAIST": "Minimal indentation, waist, ribs, and hips nearly the same width.",
+			"HIGH WAIST": "Waistline sits higher on the torso, rib cage appears closer to the pelvis.",
+			"LOW WAIST": "Waistline sits lower on the torso with more space between rib cage and hips.",
+			"TAPERED WAIST": "Gradual narrowing from ribs to waist with a soft curve.",
+			"SHORT WAIST": "Short distance between bust and waist, compact torso appearance.",
+			"LONG WAIST": "Longer distance between bust and waist, elongated torso appearance."
+		},
+		"HIP": {
+			"STRAIGHT HIPS": "Hips and waist are about the same width with minimal curve.",
+			"SQUARE HIPS": "Hip bones create a more angular, boxy look with flatter outer thighs.",
+			"TRIANGLE HIPS": "Hips are significantly wider than waist and shoulders, creating a fuller lower body.",
+			"HEART HIPS": "Wider at the top of the hips and tapering toward the thighs.",
+			"ROUND HIPS": "Pronounced outward curve at the sides, fuller side projection.",
+			"A-LINE HIPS": "Gently sloping curve from waist to thighs with a balanced silhouette.",
+			"V-SHAPED HIPS": "Hip line angles inward from hip bone to thighs with less lower fullness."
+		},
+		"LEGS": {
+			"LONG LEGS": "Legs appear longer relative to torso length, creating an elongated silhouette.",
+			"SHORT LEGS": "Legs appear shorter compared to the torso, making the torso seem longer.",
+			"STRAIGHT LEGS": "Legs run straight from hips to ankles with minimal curvature.",
+			"CURVY LEGS": "Noticeable curves around thighs and calves, creating an hourglass effect.",
+			"BOW LEGS": "Legs curve outward at the knees, feet and ankles closer than knees.",
+			"KNOCK KNEES": "Knees angle inward, often touching or nearly touching, with feet spaced apart.",
+			"MUSCULAR LEGS": "Well-defined muscles in calves and thighs, associated with athleticism.",
+			"SLIM LEGS": "Lean legs with minimal muscle or fat bulk, appearing slender."
+		},
+		"FRAME": {
+			"SMALL BONED": "Small bone framework",
+			"MEDIUM BONED": "Medium bone framework",
+			"LARGE BONED": "Large bone framework"
+		},
+		"HEIGHT": {
+			"VERY_SHORT": "Very short",
+			"SHORT": "Short",
+			"BELOW_AVERAGE": "Below average height",
+			"AVERAGE": "Average height",
+			"ABOVE_AVERAGE": "Above average height",
+			"TALL": "Tall",
+			"VERY_TALL": "Very tall",
+			"EXTREMELY TALL": "Extremely tall"
+		},
+		"WEIGHT": {
+			"SKINNY": "Extremely thin",
+			"THIN": "Below average weight",
+			"AVARAGE": "Average weight",
+			"OVERWEIGHT": "Above average weight",
+			"OBESE": "Extremely fat"
+		},
+		"SKIN_TONE": {
+			"VERY_FAIR": "Very fair skin",
+			"FAIR": "Fair skin",
+			"LIGHT": "Light skin",
+			"MEDIUM": "Medium skin",
+			"OLIVE": "Olive skin",
+			"TAN": "Tan skin",
+			"BROWN": "Brown skin",
+			"DARK_BROWN": "Dark brown skin",
+			"DEEP": "Deep skin tone"
+		},
+		"POSTURE": {
+			"UPRIGHT": "Upright posture",
+			"SLOUCHED": "Slouched posture",
+			"CONFIDENT": "Confident posture",
+			"RELAXED": "Relaxed posture",
+			"RIGID": "Rigid posture"
+		}
+	},
+	"FORM": {
+		"CHEST": "Well-developed chest muscles",
+		"SHOULDERS": "Broad, defined shoulders",
+		"ARMS": "Toned arm muscles",
+		"BICEPS": "Defined biceps",
+		"TRICEPS": "Sculpted triceps",
+		"FOREARMS": "Strong forearms",
+		"ABS": "Visible abdominal muscles",
+		"CORE": "Strong core definition",
+		"OBLIQUES": "Defined oblique muscles",
+		"BACK": "V-shaped back muscles",
+		"LATS": "Wide latissimus dorsi",
+		"TRAPS": "Developed trapezius muscles",
+		"LEGS": "Muscular legs",
+		"QUADRICEPS": "Defined quadriceps",
+		"HAMSTRINGS": "Developed hamstrings",
+		"CALVES": "Sculpted calf muscles",
+		"GLUTES": "Toned glute muscles"		
+	}
+}
