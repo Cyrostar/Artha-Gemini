@@ -10,5 +10,5 @@ Repository = "https://github.com/Cyrostar/ComfyUI-Artha-Gemini"
 
 [tool.comfy]
 PublisherId = "cyrostar"
-DisplayName = "ComfyUI-Artha-Gemini"
+DisplayName = "Artha-Gemini"
 Icon = "🔱"
