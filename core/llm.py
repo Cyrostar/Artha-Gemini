@@ -1,13 +1,92 @@
 import os
 import requests
-import google.generativeai as genai
+import torch
+import numpy as np
+from io import BytesIO
+from PIL import Image
+
+import google.generativeai as genaix
+from google import genai
+from google.genai import types
+
 from ..core.api import load_api_key
 from ..core.node import node_path
+
+def call_genai_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
+
+    # Initialize client with API key
+    client = genai.Client(api_key=api_key)
     
+    # Prepare comprehensive generation config
+    generation_config = {
+        'response_modalities': ['TEXT', 'IMAGE']
+    }
+    
+    if temperature is not None:
+        
+        temp_value = max(0.0, min(2.0, float(temperature)))
+        generation_config['temperature'] = temp_value
+    
+    if max_tokens is not None and int(max_tokens) > 0:
+        
+        generation_config['max_output_tokens'] = int(max_tokens)
+        
+    if system_instruction and system_instruction.strip():
+        
+        full_prompt = f"System: {system_instruction.strip()}\n\nUser: {text_prompt}"
+        
+    else:
+        
+        full_prompt = text_prompt
+        
+    generation_config.update({
+        'candidate_count': 1,
+        'stop_sequences': [],
+    })
+    
+    contents = []
+    contents.append(full_prompt)
+        
+    if image is not None:
+       
+        contents.append(image)
+        
+    api_response = client.models.generate_content(
+        model=model or "gemini-2.0-flash-preview-image-generation",
+        contents=contents,
+        config=types.GenerateContentConfig(**generation_config)
+    )
+    
+    text_parts = []
+    image_tensor = None
+    
+    for part in api_response.candidates[0].content.parts:
+        
+        if part.text is not None:
+            
+            text_parts.append(part.text)          
+            
+        elif part.inline_data is not None:
+            
+            generated_image = Image.open(BytesIO((part.inline_data.data)))
+            
+            if generated_image.mode != 'RGB':
+                
+                generated_image = generated_image.convert('RGB')
+            
+            image_np = np.array(generated_image).astype(np.float32) / 255.0
+            image_tensor = torch.from_numpy(image_np)[None,]  # Add batch dimension
+        
+    image = image_tensor if image_tensor is not None else None
+    response = " ".join(text_parts) if text_parts else None
+    
+    return (image, response)
+               
+ 
 def call_gemini_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
     
     # Configure the API
-    genai.configure(api_key=api_key)
+    genaix.configure(api_key=api_key)
     
     # Create the model with system instruction
     generation_config = {
@@ -15,7 +94,7 @@ def call_gemini_api(text_prompt, image, system_instruction, api_key, model, max_
         "max_output_tokens": max_tokens,
     }
     
-    model_instance = genai.GenerativeModel(
+    model_instance = genaix.GenerativeModel(
         model_name=model,
         generation_config=generation_config,
         system_instruction=system_instruction
