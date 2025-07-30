@@ -2,3 +2,4 @@ torch
 numpy
 Pillow>=11.0.0
 google-generativeai
+google-genai
