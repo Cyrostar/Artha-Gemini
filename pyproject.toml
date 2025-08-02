@@ -6,9 +6,10 @@ license = { file = "LICENSE" }
 dependencies = ["torch", "numpy", "Pillow>=11.0.0", "google-generativeai", "google-genai"]
 
 [project.urls]
-Repository = "https://github.com/Cyrostar/ComfyUI-Artha-Gemini"
+Repository = "https://github.com/Cyrostar/Artha-Gemini"
 
 [tool.comfy]
 PublisherId = "cyrostar"
 DisplayName = "Artha-Gemini"
 Icon = "🔱"
+
