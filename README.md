@@ -6,7 +6,7 @@ ComfyUI custom nodes for interacting with the Gemini api for image and video gen
 2. Install dependencies: `pip install -r requirements.txt`
    or if you use the portable install, run this inside ComfyUI root folder:
 
-  `python_embeded\python.exe -m pip install -r ComfyUI\custom_nodes\ComfyUI-Artha-Gemini\requirements.txt`
+  `python_embeded\python.exe -m pip install -r ComfyUI\custom_nodes\Artha-Gemini\requirements.txt`
 
 ## Gemini API
 
