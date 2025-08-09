@@ -12,6 +12,10 @@ app.registerExtension({
 				
 				onNodeCreated?.apply(this, arguments);
 				
+				this.size = [210, 120];
+                this.minSize = [210, 120];
+                this.setSize(this.size);
+				
 				this.div = document.createElement("div");
 				this.div.style.background = "#333";
 				this.div.style.color = "#fff";
