@@ -1,23 +1,68 @@
 import os
-import requests
 import torch
 import numpy as np
 from io import BytesIO
 from PIL import Image
 
-import google.generativeai as genaix
 from google import genai
 from google.genai import types
 
-from ..core.api import load_api_key
 from ..core.node import node_path
 
-def call_genai_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
-
-    # Initialize client with API key
+def call_gemini_text_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
+   
     client = genai.Client(api_key=api_key)
     
-    # Prepare comprehensive generation config
+    generation_config = {}
+    
+    if temperature is not None:
+        temp_value = max(0.0, min(2.0, float(temperature)))
+        generation_config['temperature'] = temp_value
+    
+    if max_tokens is not None and int(max_tokens) > 0:
+        generation_config['max_output_tokens'] = int(max_tokens)
+        
+    if system_instruction and system_instruction.strip():
+        full_prompt = f"System: {system_instruction.strip()}\n\nUser: {text_prompt}"
+    else:
+        full_prompt = text_prompt
+        
+    generation_config.update({
+        'candidate_count': 1,
+        'stop_sequences': [],
+    })
+    
+    contents = []
+    contents.append(full_prompt)
+        
+    if image is not None:
+        contents.append(image)
+        
+    try:
+        api_response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=types.GenerateContentConfig(**generation_config)
+        )
+        
+        text_parts = []
+        
+        for part in api_response.candidates[0].content.parts:
+            if part.text is not None:
+                text_parts.append(part.text)
+        
+        response = " ".join(text_parts) if text_parts else ""
+        return response
+        
+    except Exception as e:
+        
+        print(f"API Error: {e}")
+        return f"Error: {str(e)}"
+        
+def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
+
+    client = genai.Client(api_key=api_key)
+    
     generation_config = {
         'response_modalities': ['TEXT', 'IMAGE']
     }
@@ -52,7 +97,7 @@ def call_genai_api(text_prompt, image, system_instruction, api_key, model, max_t
         contents.append(image)
         
     api_response = client.models.generate_content(
-        model=model or "gemini-2.0-flash-preview-image-generation",
+        model="gemini-2.0-flash-preview-image-generation",
         contents=contents,
         config=types.GenerateContentConfig(**generation_config)
     )
@@ -77,47 +122,39 @@ def call_genai_api(text_prompt, image, system_instruction, api_key, model, max_t
             image_np = np.array(generated_image).astype(np.float32) / 255.0
             image_tensor = torch.from_numpy(image_np)[None,]  # Add batch dimension
         
-    image = image_tensor if image_tensor is not None else None
+    tensor = image_tensor if image_tensor is not None else None
     response = " ".join(text_parts) if text_parts else None
+   
+    return (tensor, response)
+
+def gemini_api_parameters():
     
-    return (image, response)
-               
- 
-def call_gemini_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
-    
-    # Configure the API
-    genaix.configure(api_key=api_key)
-    
-    # Create the model with system instruction
-    generation_config = {
-        "temperature": temperature,
-        "max_output_tokens": max_tokens,
+    api_parameters = {
+        "api_key": ("STRING", {
+            "multiline": False,
+            "default": "",
+            "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
+        }),
+        "model": (["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"], {
+            "default": "gemini-2.5-flash"
+        }),
+        "max_tokens": ("INT", {
+            "default": 2000,
+            "min": 1,
+            "max": 8192,
+            "step": 1,
+            "tooltip": "For Gemini models, a token is equivalent to about 4 characters. 100 tokens is equal to about 60-80 English words."
+        }),
+        "temperature": ("FLOAT", {
+            "default": 0.7,
+            "min": 0.0,
+            "max": 2.0,
+            "step": 0.1,
+            "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
+        }),
     }
     
-    model_instance = genaix.GenerativeModel(
-        model_name=model,
-        generation_config=generation_config,
-        system_instruction=system_instruction
-    )
-    
-    content_parts = [text_prompt]
-    
-    if image is not None:
-        
-        if isinstance(image, list):
-            
-            for img in image:
-                
-                content_parts.append(img)
-                    
-        else:
-            
-            content_parts.append(image)     
-    
-    # Generate response
-    response = model_instance.generate_content(content_parts)
-    
-    return response.text
+    return api_parameters
     
 def load_agent(agent):
     
@@ -134,71 +171,3 @@ def load_agent(agent):
         
         print(f"Error loading text file: {e}")
         return None
-        
-        
-def call_gemini_api_url(image_base64, text_prompt, system_instruction, api_key, model, max_tokens, temperature):
-    
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    
-    headers = {
-        "Content-Type": "application/json"
-    }
-    
-    system_text_part = {"text": system_instruction}    
-    system_instruction_object = {"parts": [system_text_part]}
-    
-    content_text_part = {"text": text_prompt} 
-    content_image_part = {
-        "inline_data": {
-            "mime_type": "image/jpeg",
-            "data": image_base64
-        }
-    }  
-    content_parts = [content_text_part, content_image_part]   
-    content_object = {"parts": content_parts}   
-    contents_array = [content_object]
-      
-    generation_config = {
-        "temperature": temperature,
-        "maxOutputTokens": max_tokens,
-    }
-    
-    payload = {
-        "systemInstruction": system_instruction_object,
-        "contents": contents_array,
-        "generationConfig": generation_config
-    }
-    
-    try:
-        response = requests.post(url, headers=headers, json=payload, timeout=30)
-        response.raise_for_status()
-        
-        result = response.json()
-        
-        # Extract the generated text
-        if "candidates" in result and len(result["candidates"]) > 0:
-            
-            candidate = result["candidates"][0]
-            
-            if "content" in candidate and "parts" in candidate["content"]:
-                
-                return candidate["content"]["parts"][0]["text"]
-            
-            else:
-                
-                return "Error: No content in response"
-        else:
-            
-            return f"Error: No candidates in response. Full response: {result}"
-            
-    except requests.exceptions.RequestException as e:
-        
-        return f"API Request Error: {str(e)}"
-        
-    except json.JSONDecodeError as e:
-        
-        return f"JSON Decode Error: {str(e)}"
-        
-    except Exception as e:
-        
-        return f"Unexpected Error: {str(e)}"
