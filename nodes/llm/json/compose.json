@@ -1,0 +1,387 @@
+{
+	"CAMERA": {
+		"TYPE": {
+			"DSLR": "Digital Single-Lens Reflex camera with interchangeable lenses and optical viewfinder, known for high image quality and manual control.",
+			"MIRRORLESS": "Compact cameras with interchangeable lenses and electronic viewfinders; offer DSLR-quality images with lighter bodies.",
+			"PHONE": "Smartphone camera with compact sensors and software-driven image processing; convenient and increasingly powerful.",
+			"FILM CAMERA": "Analog cameras that use photographic film to capture images; prized for their aesthetic and physical process.",
+			"DIGITAL CINEMA CAMERA": "Professional-grade video cameras designed for filmmaking, offering large sensors, high dynamic range, and RAW/ProRes recording.",
+			"POINT-AND-SHOOT": "Compact digital cameras with fixed lenses, designed for ease of use and portability with automatic settings.",
+			"ACTION CAMERA": "Small, rugged cameras like GoPros built for capturing wide-angle footage in dynamic or extreme environments.",
+			"360 CAMERA": "Cameras with multiple lenses that capture spherical imagery or video for VR or immersive experiences.",
+			"DRONE CAMERA": "Camera systems mounted on drones for aerial photography and cinematography.",
+			"WEBCAM": "Basic fixed-lens camera used for live streaming or video conferencing via computers or devices.",
+			"RANGEFINDER": "Cameras that use a separate rangefinder focusing mechanism, often manual; compact and precise, popular with street photographers.",
+			"INSTANT CAMERA": "Cameras that print photos immediately after taking them using self-developing film, such as Polaroid or Instax."
+		},
+		"CONTEXT": {
+			"PROFESSIONAL": "Used in commercial or high-end creative environments such as film production, fashion, journalism, and advertising.",
+			"CONSUMER": "Designed for everyday users; prioritizes ease of use, portability, and automatic functions.",
+			"HOBBYIST": "Used by enthusiasts who value creative control, image quality, and manual features without professional intent.",
+			"SURVEILLANCE": "Used for monitoring, security, or law enforcement purposes; typically includes fixed or networked cameras.",
+			"CINEMATIC": "Used for storytelling or artistic motion pictures, often involving high-end production equipment.",
+			"DOCUMENTARY": "Used for observational and real-world content creation; may require mobility and naturalistic lighting.",
+			"VLOGGING/STREAMING": "Used for online personal content creation; prioritizes portability, stabilization, and real-time video features.",
+			"AERIAL": "Used to capture images or video from above, typically via drones or helicopters.",
+			"SCIENTIFIC/INDUSTRIAL": "Used in lab, medical, or industrial settings for research, diagnostics, or machine vision.",
+			"UNDERWATER": "Specialized for use in aquatic environments, with waterproofing and light adaptation."
+		},
+		"SHOT": {
+			"CLOSE UP SHOT": "Tightly frames a subject’s face or object detail.",
+			"EXTREME CLOSE UP SHOT": "Focuses on a single detail like an eye or hand.",
+			"MEDIUM SHOT": "Frames subject from waist up; good for dialogue scenes.",
+			"MEDIUM CLOSE UP SHOT": "Closer than medium shot; from chest up.",
+			"MEDIUM LONG SHOT": "Frames subject from knees up; balances subject and setting.",
+			"LONG SHOT": "Shows full body of subject; emphasizes environment.",
+			"WIDE ANGLE SHOT": "Expansive view of the setting; often used for landscapes."
+		},
+		"LENSES": {
+			"WIDE ANGLE LENS": "Lens with a short focal length that captures a broad field of view; some distortion.",
+			"STANDARD LENS": "Lens with a natural perspective; approximates human vision (typically 50mm).",
+			"TELEPHOTO LENS": "Lens that magnifies distant subjects and compresses space.",
+			"MACRO LENS": "Specialized lens for extreme close-ups and detail work.",
+			"FISHEYE LENS": "Ultra-wide lens with strong barrel distortion, creating a circular effect."
+		},
+		"ANGLES": {
+			"OVER THE SHOULDER": "Camera placed behind a character to show their viewpoint.",
+			"HIGH ANGLE": "Camera looks down on subject, often implying vulnerability.",
+			"LOW ANGLE": "Camera looks up at subject, often suggesting power.",
+			"TILTED ANGLE": "Diagonal or off-kilter framing for disorientation.",
+			"AERIAL ANGLE": "Bird’s-eye view from high above the scene."
+		},
+		"MOTION": {
+			"PUSH IN": "The camera moves slowly toward the subject, creating intensity or drawing focus to emotion.",
+			"PULL BACK": "The camera moves away from the subject, often creating distance, isolation, or reveal.",
+			"DOLLY IN/OUT": "Smooth, linear movement of the camera toward or away from a subject using a dolly track.",
+			"ZOOM IN/OUT": "Lens-based change in focal length; compresses or expands space without physical movement.",
+			"TRACKING (FOLLOW)": "Camera follows a subject from behind or alongside to maintain pace and continuity.",
+			"TRUCKING (LATERAL)": "Camera moves left or right alongside the subject, maintaining parallel motion.",
+			"CRANE (JIB)": "Vertical movement of the camera, usually rising above or descending toward a subject dramatically.",
+			"TILT UP/DOWN": "The camera pivots vertically from a fixed point to reveal or emphasize scale.",
+			"PAN LEFT/RIGHT": "The camera rotates horizontally from a fixed position, often used for reveals or surveying scenes.",
+			"WHIP PAN": "A very fast pan that causes motion blur; commonly used as a transition or for action.",
+			"STEADICAM": "Fluid handheld-style movement that retains smoothness, ideal for immersive movement through scenes.",
+			"HANDHELD": "Intentionally shaky and organic movement used to convey urgency, realism, or emotional tension.",
+			"ORBITING": "Camera circles around the subject to reveal surroundings or enhance dynamism.",
+			"VERTIGO EFFECT (DOLLY ZOOM)": "A dramatic combination of dolly in and zoom out (or vice versa), creating disorienting spatial distortion.",
+			"STATIC SHOT": "No camera movement; emphasizes stillness, tension, or visual symmetry."
+		},
+		"FOCAL_LENGTH": {
+			"14MM": "Ultra-wide view with dramatic distortion; emphasizes space.",
+			"24MM": "Wide angle, slight distortion; good for interiors and landscapes.",
+			"35MM": "Slightly wide, natural look for documentary and street scenes.",
+			"50MM": "Standard field of view; most similar to human eye perception.",
+			"85MM": "Short telephoto, ideal for flattering portraits.",
+			"135MM": "Moderate telephoto; strong compression and background blur.",
+			"200MM+": "Long telephoto for distant subjects like wildlife or sports."
+		},
+		"DEPTH_OF_FIELD": {
+			"SHALLOW DOF": "Small area in focus; blurs background for subject isolation.",
+			"DEEP DOF": "Most of the scene remains in sharp focus.",
+			"SELECTIVE FOCUS": "Focus is applied intentionally to a specific part of the scene."
+		},
+		"ASPECT_RATIO": {
+			"1:1": "Square format; popular in social media and medium format photography (e.g., Hasselblad).",
+			"4:3": "Boxy frame used in Micro Four Thirds digital sensors and older video formats.",
+			"3:2": "Standard 35mm film and full-frame digital photography format.",
+			"5:4": "Traditional large format ratio, ideal for portraits and fine art prints.",
+			"6:4.5": "Medium format frame (645 format); slightly more rectangular than 4:3.",
+			"6:6": "Square medium format used by classic cameras like Rolleiflex and Hasselblad.",
+			"6:7": "Near-perfect medium format balance; preferred for editorial and portrait work.",
+			"6:9": "Wide medium format used in panoramic film photography.",
+			"2:1": "Panoramic format often created through stitching or wide-frame cameras.",
+			"3:1": "Ultra-wide panoramic format used for cinematic or landscape visuals.",
+			"16:9": "Widescreen HD standard; widely used in digital video and hybrid cameras.",
+			"2.39:1": "Cinematic ultra-wide ratio used in most feature films.",
+			"9:16": "Vertical video format; used on mobile and social platforms."
+		},
+		"SENSOR_TYPE": {
+			"FULL FRAME": "Large sensor for better light, shallow DOF, and high image quality.",
+			"APS-C": "Crop sensor with narrower field of view; good balance of quality and size.",
+			"MICRO FOUR THIRDS": "Smaller sensor with deeper DOF and compact gear.",
+			"MEDIUM FORMAT": "Very large sensor; ultra-high resolution and detail.",
+			"DIGITAL CINEMA CAMERA": "Designed for motion picture capture with wide dynamic range.",
+			"SMARTPHONE SENSOR": "Small sensor; uses software to simulate effects like DOF."
+		},
+		"CAMERA_STYLE": {
+			"HANDHELD": "Organic and slightly shaky, often used for realism.",
+			"TRIPOD": "Stable and locked down, used for formal shots.",
+			"DRONE": "Floating, aerial movement; top-down or tracking shots.",
+			"ROBOTIC ARM": "Smooth and programmable camera moves, often for products or VFX.",
+			"STABILIZED GIMBAL": "Smooth, floating shots following movement.",
+			"CRANE": "High sweeping camera motion used for reveals or transitions."
+		},
+		"FRAMING": {
+			"CENTERED": "Subject placed in the middle of the frame.",
+			"LEFT THIRD": "Subject aligned to left third using the rule of thirds.",
+			"RIGHT THIRD": "Subject aligned to right third; emphasizes space.",
+			"LOW FRAME": "Subject is framed near the bottom of the screen.",
+			"HIGH FRAME": "Subject is framed near the top of the screen."
+		},
+		"CAMERA_MODELS": {
+			"LEICA M6": "35mm rangefinder film camera known for precision, manual control, and timeless design; favored in street and documentary photography.",
+			"CANON AE-1": "Affordable, reliable 35mm SLR film camera with automatic exposure; very popular among beginners and film enthusiasts.",
+			"NIKON F3": "Professional-grade 35mm SLR with a rugged build; known for its manual focus precision and legendary durability.",
+			"FUJI X100V": "Digital fixed-lens camera with film simulation modes and compact retro design; beloved by street photographers.",
+			"SONY A7S III": "Full-frame mirrorless digital camera with exceptional low-light video performance and 4K/120p recording; favored in cinematography.",
+			"CANON C300 MARK III": "Digital cinema camera with Super 35 sensor and internal RAW recording; common in high-end productions.",
+			"ARRI ALEXA MINI": "Industry-standard cinema camera known for its dynamic range, color science, and robust build; widely used in feature films.",
+			"BLACKMAGIC POCKET 6K": "Affordable digital cinema camera with RAW recording and cinematic color profiles; popular in indie productions.",
+			"RED KOMODO": "Compact cinema camera capable of high-resolution RAW video; used for stylized, high-quality digital filmmaking.",
+			"HASSELBLAD 500CM": "Medium format film camera famous for image sharpness and modularity; widely used in studio and portrait photography.",
+			"FUJIFILM GFX 100S": "Medium format mirrorless digital camera with 102MP sensor and film simulation; combines sharpness with analog feel.",
+			"PANASONIC GH6": "Micro Four Thirds mirrorless camera optimized for video workflows, V-Log recording, and high frame rate shooting.",
+			"PENTAX K1000": "Legendary 35mm SLR known for simplicity and durability; often used in photography education and by beginners.",
+			"CONTAX T2": "Premium compact 35mm film camera with a sharp Zeiss lens; cult favorite among fashion and street photographers.",
+			"ROLLEIFLEX 2.8F": "Classic twin-lens reflex medium format camera; iconic in portrait and fine art photography.",
+			"OLYMPUS OM-1": "Compact and lightweight 35mm SLR with excellent optics; praised for its engineering and portability.",
+			"CANON 5D MARK II": "Groundbreaking DSLR that popularized full HD video capture in photography gear; used in early digital cinema.",
+			"NIKON D850": "High-resolution full-frame DSLR known for its dynamic range, speed, and versatility for professionals.",
+			"FUJI XT-4": "Hybrid APS-C mirrorless camera with film simulations, in-body stabilization, and strong video/photo capabilities.",
+			"ARRI ALEXA CLASSIC": "The original ALEXA that set the standard for digital cinema; known for its organic, film-like image.",
+			"RED ONE": "Pioneering digital cinema camera that brought RAW and high-res digital filmmaking to indie and commercial productions.",
+			"GOPRO HERO12": "Latest model in GoPro’s action camera line; known for durability, wide-angle capture, and high-frame-rate video.",
+			"INSTA360 ONE X2": "Popular 360-degree camera with FlowState stabilization and immersive video/photo capabilities."
+		},
+		"FILMSTOCK": {
+			"KODAK VISION3 500T": "Popular tungsten-balanced film with rich color and good low-light performance.",
+			"KODAK VISION3 250D": "Daylight-balanced cinema film with fine grain and rich, natural colors; used in narrative filmmaking.",
+			"KODAK EKTACHROME": "Color reversal film with vibrant tones and high contrast.",
+			"KODAK PORTRA 400": "Industry-standard portrait film known for smooth skin tones, fine grain, and wide exposure latitude.",
+			"KODAK GOLD 200": "Consumer-grade film with warm tones and a nostalgic aesthetic.",
+			"KODAK TRI-X 400": "Classic black and white film with high contrast and gritty texture; iconic in documentary and street photography.",
+			"FUJI PRO 400H": "Fine grain and soft pastel tones; excellent for portraits.",
+			"FUJI VELVIA 50": "Slide film with very high color saturation and contrast; used for landscapes.",
+			"FUJI SUPERIA X-TRA 400": "Vibrant consumer color negative film with good sharpness and flexibility.",
+			"AGFA VISTA 200": "Budget color film known for muted tones and a retro look.",
+			"ILFORD HP5 PLUS": "Black and white film with classic grain and high contrast.",
+			"ILFORD DELTA 3200": "Ultra high-speed black and white film for low-light and high-grain aesthetic.",
+			"CINESTILL 800T": "Tungsten-balanced motion picture film adapted for stills; famous for cinematic halation glow.",
+			"CINESTILL 50D": "Daylight version of motion picture film with fine grain and vibrant, cinematic color.",
+			"CINEMA LOOK DIGITAL": "Digital processing to emulate cinematic film color palettes."
+		},
+		"COLOR": {
+			"WARM TONE": "Colors with red, orange, and yellow hues; evoke warmth, intimacy, or tension.",
+			"COOL TONE": "Colors with blue, green, and purple hues; evoke calm, detachment, or melancholy.",
+			"HIGH SATURATION": "Intense, vivid colors; used for energy, fantasy, or surrealism.",
+			"LOW SATURATION": "Muted, desaturated colors; often used for realism, nostalgia, or bleakness.",
+			"MONOCHROME": "Single color or hue dominance, often used to convey focus or symbolism.",
+			"DUOTONE": "Image composed using two contrasting colors; creates mood and stylization.",
+			"SEPIA TONE": "Warm brownish tone resembling vintage photography; evokes nostalgia.",
+			"BLACK AND WHITE": "No color, only grayscale; used for timelessness, contrast, or abstraction.",
+			"TEAL AND ORANGE": "High-contrast color grading pairing cool shadows with warm skin tones; popular in modern cinema.",
+			"MUTED COLORS": "Soft, less vibrant tones; used for naturalistic or subdued visuals.",
+			"VIBRANT COLORS": "Bright and energetic color palette; evokes joy, fantasy, or surrealism.",
+			"PASTEL COLORS": "Soft, light shades of primary colors; used for innocence, calmness, or dreamlike scenes.",
+			"NEON COLORS": "Highly saturated, artificial colors (e.g., magenta, cyan); used for futuristic or urban night scenes.",
+			"NATURAL COLORS": "Color palette resembling real-life lighting and objects; used for realism and authenticity.",
+			"COLOR POP": "Selective use of one vivid color while others are muted or grayscale; draws attention and contrast."
+		},	
+		"TEXTURE": {
+			"FILM_GRAIN": "Visible grain pattern characteristic of analog film; adds a tactile, vintage feel.",
+			"VIGNETTE": "Darkening of image corners to focus attention toward the center; creates a moody or intimate atmosphere.",
+			"BLOOM": "Soft glow around bright areas caused by light scattering; used to create dreamy or magical effects.",
+			"HALATION": "Light bleed or halo effect around bright highlights, typical of some film stocks; adds softness.",
+			"CHROMATIC_ABERRATION": "Color fringing along edges caused by lens imperfections; used stylistically to mimic older lenses.",
+			"LENS_FLARE": "Bright streaks or spots caused by light scattering in lenses; adds realism or artistic flair.",
+			"SCRATCHES_AND_DUST": "Visual noise or imperfections mimicking old or damaged film; evokes nostalgia or grittiness.",
+			"PIXELATION": "Visible pixel structure or low resolution effect; used for stylistic retro or digital aesthetics."
+		}
+	},
+	"LIGHT": {
+		"SOURCE": {
+			"DAYLIGHT": "Natural light from the sun during the daytime, typically bright and white.",
+			"SUNNY LIGHT": "Direct sunlight with sharp shadows and high contrast.",
+			"MOON LIGHT": "Cool, dim natural light from the moon; soft and blue-toned.",
+			"OVERCAST LIGHT": "Diffuse, soft lighting on cloudy days; low shadows and contrast.",
+			"SUNRISE LIGHT": "Golden, directional light from the rising sun.",
+			"SUNSET LIGHT": "Warm, golden light just before dusk.",
+			"DAWN LIGHT": "Soft, pale light before sunrise.",
+			"DUSK LIGHT": "Cool, fading light at twilight; soft and moody.",
+			"ARTIFICIAL LIGHT": "Light from man-made sources like bulbs or LEDs.",
+			"PRACTICAL LIGHT": "Visible light sources in the scene, like lamps or candles.",
+			"FLUORESCENT LIGHT": "Cool-toned, often harsh light commonly used in offices or hospitals.",
+			"FIRE LIGHT": "Warm, flickering light from fire sources such as torches or fireplaces.",
+			"MIXED LIGHT": "A scene containing different light sources or color temperatures."
+		},
+		"QUALITY": {
+			"SOFT LIGHT": "Light that wraps gently around subjects with smooth transitions.",
+			"HARD LIGHT": "Sharp, well-defined shadows with high contrast.",
+			"LOW CONTRAST LIGHT": "Flat lighting with minimal tonal difference.",
+			"HIGH CONTRAST LIGHT": "Lighting with deep shadows and bright highlights."
+		},
+		"DIRECTION": {
+			"TOP LIGHT": "Light coming from directly overhead.",
+			"SIDE LIGHT": "Light coming from one side, creating depth and dimension.",
+			"BACK LIGHT": "Light from behind the subject, often used for silhouettes or rim lighting.",
+			"RIM LIGHT": "Edge lighting that highlights contours of a subject, often from behind.",
+			"BOTTOM LIGHT": "Light coming from below the subject; creates dramatic, eerie effects.",
+			"SILHOUETTE LIGHT": "Subject appears dark against a bright background."
+		},
+		"TIMEOFDAY": {
+			"DAYTIME LIGHT": "Bright, neutral light typical of midday sun.",
+			"NIGHT LIGHT": "Low ambient light, often requiring artificial sources.",
+			"DAWN LIGHT": "Soft, pale light before sunrise.",
+			"SUNRISE LIGHT": "Golden, directional light from the rising sun.",
+			"DUSK LIGHT": "Cool, fading light at twilight; soft and moody.",
+			"SUNSET LIGHT": "Warm, golden light just before dusk."
+		},
+		"PHENOMENA": {
+			"LENS FLARE": "Bright streaks or artifacts caused by intense light scattering inside a camera lens.",
+			"GOD RAYS": "Beams of sunlight visible through atmospheric particles like mist or clouds.",
+			"VOLUMETRIC LIGHT": "Visible shafts of light passing through a medium like fog or smoke.",
+			"CAUSTICS": "Light patterns formed by refraction through water or glass onto surfaces.",
+			"REFLECTION": "Light bouncing off reflective surfaces like mirrors or water.",
+			"REFRACTION": "Bending of light through transparent materials such as glass.",
+			"CHROMATIC ABERRATION": "Color fringing around edges due to lens dispersion or used for stylistic effect.",
+			"HALATION": "Glow or halo around bright areas, typically in film stock or bloom simulations.",
+			"BLOOM": "Soft light spill that creates glowing effects on bright highlights.",
+			"HALO": "Circular light surrounding a source, often seen around the sun or moon.",
+			"RAINBOW": "Multicolor arc caused by light refraction and reflection through water droplets.",
+			"AURORA": "Natural, colorful light displays in polar skies due to atmospheric ionization.",
+			"LIGHT PILLAR": "Vertical shafts of light caused by ice crystals reflecting light in cold environments.",
+			"COLOR CAST": "Scene-wide tint caused by dominant lighting conditions (e.g., greenish from fluorescents).",
+			"SHADOW PLAY": "Complex or artistic shadow patterns cast by objects or light structures.",
+			"SUNBURST": "Radiating light rays appearing behind objects like trees or mountains, often from a low sun."
+		}
+	},
+	"STYLE": {
+		"TRADITIONAL": {
+			"IMPRESSIONISM": "Soft brushstrokes, focus on light and color, inspired by artists like Monet.",
+			"EXPRESSIONISM": "Emotional intensity, distorted forms, and vivid color.",
+			"CUBISM": "Geometric abstraction, multiple viewpoints in a single image.",
+			"SURREALISM": "Dreamlike and irrational imagery, often bizarre and symbolic.",
+			"BAROQUE": "Dramatic lighting and rich detail, high contrast (chiaroscuro).",
+			"RENAISSANCE": "Realistic proportions, perspective, and classical beauty.",
+			"FAUVISM": "Bold use of color and simplified forms.",
+			"ART NOUVEAU": "Ornamental style with flowing lines and floral motifs.",
+			"ART DECO": "Geometric forms, elegance, and modern luxury aesthetic.",
+			"POP ART": "Bold colors, mass media imagery, and comic-style influence.",
+			"MINIMALISM": "Simplicity, minimal detail, flat colors.",
+			"ABSTRACT": "Non-representational, focusing on shapes, colors, and form.",
+			"REALISM": "Lifelike representation with high detail and accuracy."
+		},
+		"MODERN": {
+			"CYBERPUNK": "Futuristic, neon-lit, dystopian themes.",
+			"SYNTHWAVE": "1980s retro aesthetic with neon grids and sunsets.",
+			"VAPORWAVE": "Nostalgic and glitchy, pastel tones, surreal classical references.",
+			"ANIME": "Japanese animation style, expressive characters, cel shading.",
+			"MANGA": "Black-and-white comic style with dynamic expressions and framing.",
+			"CARTOON": "Simplified, exaggerated features, often outlined.",
+			"COMIC BOOK": "Panel-based layout, halftone dots, strong ink lines.",
+			"3D RENDER": "Computer-generated realism or stylized renderings.",
+			"PIXEL ART": "Low-resolution pixel-based design, game-like visuals.",
+			"LOW POLY": "Geometric, polygonal 3D style with flat shading.",
+			"ISOMETRIC": "3D-like look using parallel projection, often in game art.",
+			"DIGITAL PAINTING": "Painterly strokes using digital brushes and tools."
+		},
+		"PHOTOGRAPHIC": {
+			"CINEMATIC": "Wide aspect ratios, dramatic lighting, film-style color grading.",
+			"VINTAGE": "Aged, faded colors, and film grain texture.",
+			"POLAROID": "Instant photo look with retro colors and square format.",
+			"BLACK AND WHITE": "Grayscale or monochrome photography style.",
+			"HDR": "Hyper-detailed, vivid colors and contrast.",
+			"LOMOGRAPHY": "Experimental, analog film look with color shifts.",
+			"MACRO": "Extreme close-up detail, often used for nature or textures.",
+			"PORTRAIT": "Focused on faces with studio or natural lighting setups."
+		},
+		"NAMED": {
+			"GHIBLI STYLE": "Painterly backgrounds, soft colors, and whimsical details inspired by Studio Ghibli films.",
+			"DISNEY STYLE": "Expressive, round characters with smooth, polished animation style.",
+			"PIXAR STYLE": "Stylized 3D characters with soft realism and emotional storytelling.",
+			"DREAMWORKS STYLE": "3D animated, often humorous or dramatic with exaggerated expressions.",
+			"TIM BURTON STYLE": "Gothic, quirky, exaggerated anatomy with dark yet whimsical tones.",
+			"GENSHIN IMPACT STYLE": "Stylized anime visuals with glowing effects, fine details, and fantasy environments.",
+			"DARK SOULS STYLE": "Gritty, medieval fantasy with desaturated colors and haunting ambiance.",
+			"ELDEN RING STYLE": "Grand fantasy landscapes with a surreal, epic, and melancholic tone.",
+			"LO-FI STYLE": "Muted colors, nostalgic settings, cozy indoor scenes; often associated with lo-fi music art.",
+			"GTA STYLE": "Posterized realism with high contrast, influenced by Grand Theft Auto loading screens.",
+			"MINECRAFT STYLE": "Blocky, voxel-based aesthetic with minimalist design.",
+			"FORTNITE STYLE": "Cartoonish 3D with vibrant colors and action-ready poses.",
+			"OVERWATCH STYLE": "Heroic, stylized realism with smooth shading and sci-fi fantasy elements."
+		},
+		"INSPIRED": {
+			"VAN GOGH STYLE": "Thick impasto brushstrokes, swirling skies, and vivid colors inspired by Vincent van Gogh.",
+			"PICASSO STYLE": "Cubist abstraction, fractured perspectives, and geometric shapes influenced by Pablo Picasso.",
+			"DALI STYLE": "Dreamlike surrealism with melting forms and desert-like spaces, in the spirit of Salvador Dalí.",
+			"MONET STYLE": "Soft-focus impressionist scenes with natural light and color, inspired by Claude Monet.",
+			"MATISSE STYLE": "Bold, flat color areas and simplified forms reflecting Henri Matisse’s Fauvist style.",
+			"KLIMT STYLE": "Golden, ornamental textures with decorative patterns, inspired by Gustav Klimt.",
+			"HOKUSAI STYLE": "Japanese woodblock print aesthetic with wave patterns and flat perspective, based on Katsushika Hokusai.",
+			"BASQUIAT STYLE": "Chaotic, expressive graffiti-like visuals with text and symbols, in the style of Jean-Michel Basquiat.",
+			"WARHOL STYLE": "Pop art with commercial icons, high contrast, repetition, and bold outlines like Andy Warhol.",
+			"ESCHER STYLE": "Mathematical illusions and impossible geometry in the style of M.C. Escher.",
+			"POLLOCK STYLE": "Abstract expressionist splatter or drip painting, in the style of Jackson Pollock.",
+			"REMBRANDT STYLE": "Baroque portraiture with rich chiaroscuro lighting, referencing Rembrandt.",
+			"DA VINCI STYLE": "Renaissance realism with sfumato shading and precise anatomy, inspired by Leonardo da Vinci.",
+			"FRIDA KAHLO STYLE": "Colorful, emotional self-portraits with symbolic surrealist elements, in Frida Kahlo’s style.",
+			"MAGRITTE STYLE": "Conceptual surrealism with ordinary objects in unexpected contexts, inspired by René Magritte.",
+			"EGON SCHIELE STYLE": "Expressive, raw linework and distorted figures, reflecting Egon Schiele’s emotional intensity.",
+			"GEORGIA KEEFFE STYLE": "Large-scale floral abstractions and southwestern landscapes, inspired by Georgia O’Keeffe.",
+			"YAYOI KUSAMA STYLE": "Repetitive polka dots, mirrors, and psychedelic colors, reflecting Yayoi Kusama’s installations."
+		}		
+	},
+	"SCENERY": {	
+		"LANDSCAPES": {
+			"MOUNTAINS": "Majestic mountains covered in snow under a bright blue sky, with mountain range, snow, pine trees. Jagged rocky cliffs overlooking a valley, with waterfalls, moss, rare alpine flowers. Snowy mountain pass with frozen waterfalls, with pine trees, icy rocks, distant peaks. Desert mountains glowing at sunset, with layered rock formations, dry grass, lone cactus. Volcanic mountain with red-hot lava flows, with ash clouds, scorched earth. Rugged mountain ridge with snow patches, with eagle soaring, rocky outcrops. Alpine meadows in summer, with blooming wildflowers, butterflies, clear skies. Serene valley between high peaks, with river, wild animals, morning mist. Forested mountains under stormy skies, with lightning, wind-blown trees.",			
+			"HILLS": "Rolling hills blanketed in orange, red, and yellow autumn foliage, with fall trees, winding road, distant cottages. Windy highland with scattered rocks and wild grasses, with boulders, long grass, sheep. Misty green hills at sunrise, with low clouds, soft golden light, grazing horses. Rocky foothills with scattered pine trees, with dirt trails, mountain goats. Green alpine slopes in spring, with wildflowers, meadows, grazing cattle. Rugged hills covered in heather and gorse, with narrow footpaths, distant farms. Gentle rolling hills with wildflowers, bees, and butterflies. Sunset over grassy hills dotted with ancient stone ruins. Hillside vineyard with rows of grapevines and rustic farmhouse.",		
+			"FORESTS": "Dense tropical jungle with sunlight filtering through thick green canopy, with vines, ferns, parrots. Misty pine forest at dawn, with fog rolling between tall trunks and moss-covered ground. Autumn woodland carpeted with fallen red and gold leaves, with mushrooms, squirrels, distant deer. Mossy temperate forest with fern-covered floor, with mushrooms, owls, trickling creek. Deciduous forest in early spring, with fresh leaves, blooming flowers, bird nests. Twilight forest clearing lit by fireflies, with soft grass, wildflowers, distant howls. Bamboo forest with tall slender stalks swaying in wind, with soft green light, hidden stream. Rain-soaked jungle with heavy clouds, dripping leaves, calls of exotic birds. Enchanted forest with glowing mushrooms and faint magical mist, with ancient twisted trees, tiny fireflies.",		
+			"JUNGLES": "Ancient rainforest with massive buttress roots, with parrots, waterfalls, orchids. Dense tropical jungle with towering trees, thick vines, colorful birds. Rainforest canopy with filtered sunlight, orchids, monkeys, and ferns. Jungle ruins overtaken by vegetation, with broken statues, vines, exotic flowers. Tropical wet jungle with dripping leaves, frogs, and buzzing insects. Misty jungle valley with hidden streams, wild animals, and exotic plants. Humid jungle clearing with sunlight beams and flowering bushes.",		
+			"DESERTS": "Golden sand dunes stretching into the horizon, with rippling patterns, camel caravan, blazing sun. Barren salt flats under vast cloudless sky, with shimmering heat haze, distant mountains. Dusty desert valley with cracked earth, tumbleweeds, and dry shrubs. Windswept desert plateau at dawn, with long shadows, blooming cacti, soft breeze. Vast sandy desert with mirage illusions, with dry cracked ground, sun glare. Desert ruins with collapsed stone buildings, sand drifts, skeletal remains. Nighttime desert under the Milky Way, with glowing sand, silhouettes of cacti. Cracked desert floor with dry riverbeds and sparse brush. Red desert cliffs with narrow canyon paths and hawks soaring overhead.",		
+			"CANYONS": "Red rock canyon carved by winding river, with steep cliffs, layered strata, sparse shrubs. Rocky badlands with strange spire formations, dry riverbeds, circling hawks. Windswept canyon with layered red and orange walls, with vultures, narrow paths. Deep desert canyon at sunset, with glowing rock faces, shadows, and desert plants. Narrow slot canyon with twisting walls, beams of light, and sandy floor. Vast canyon system with rivers and waterfalls cutting through rock formations.",		
+			"BEACHES": "Tropical beach with white sand and turquoise waves, with palm trees, seashells, gentle breeze. Black sand beach with volcanic cliffs, driftwood, foamy surf. Secluded cove with smooth pebbles, tide pools, crabs scuttling. Sunrise over calm bay, with sailboats, pink sky, gentle water. Windswept dunes leading to the sea, with wild grasses, driftwood logs. Beach bonfire at dusk, with glowing embers, friends gathered, starry sky. Sandy beach with colorful umbrellas and children playing.",		
+			"COASTS": "Rocky coastline with crashing waves, seagulls, lighthouses on distant cliffs. Remote island with lush jungle meeting sea, with waterfalls flowing into ocean. Stormy sea with massive waves, dark clouds, flashes of lightning. Old pier extending into ocean, with weathered wood, seagulls, fishing boats. Foggy harbor with moored fishing boats, ropes, wet docks. Windswept northern coast with dark cliffs, lighthouse, storm clouds. Rocky headland with crashing surf and tide pools.",		
+			"RIVERS": "Calm river winding through grassy meadow, with wildflowers, fishing boat, ducks. Mountain stream in early spring, with mossy rocks, rushing water, fallen logs. Slow river with willow trees on banks, ducks, and reflections. Wide river delta with marshes, reeds, herons flying overhead. River bend with pebbled shore, scattered driftwood, and small fish.",		
+			"LAKES": "Crystal-clear lake reflecting surrounding peaks, with pine trees, ripples, canoe. Large lake at dusk, with pink sky reflection, reeds, distant hills. Small mountain lake with rocky shore, wildflowers, and calm water. Serene forest lake with lily pads, frogs, and dragonflies. Hidden alpine lake surrounded by dense pine forest and fog.",		
+			"WATERFALLS": "Tall waterfall cascading into a blue pool surrounded by jungle, with rainbow mist, ferns, parrots. Frozen waterfall with icicles and snow-covered rocks. Wide multi-tiered waterfall in tropical rainforest, with moss, vines, and mist. Narrow mountain waterfall flowing over rocky cliff, with ferns and moss. Waterfall surrounded by autumn foliage and colorful trees.",		
+			"ARCTIC": "Frozen tundra under pale blue skies, with snowdrifts, icebergs, seals. Snow-covered mountains beside a frozen lake, with pine trees, ice cracks, snowy cliffs. Aurora-lit arctic landscape, with icy plains, polar bears, shimmering sky. Antarctic ice shelf, with penguins, glaciers, cold wind. Frozen bay under moonlight, with ice floes, orcas, glowing aurora. Ice-covered fjords with towering cliffs and drifting icebergs.",		
+			"POLAR": "Glacial polar desert with cracked ice sheets and pale sky. Polar ice caps with wind-swept snow and distant mountain peaks. Snowy polar plateau with scattered ice formations and cold blue shadows. Polar night sky with shimmering aurora and frozen landscape. Ice caves with crystalline formations and cold blue light."
+		},		
+		"URBAN": {
+			"MODERN CITIES": "Bustling city street at night lit by neon signs, with pedestrians, shopfronts, wet reflections on asphalt. Skyscraper skyline viewed from high rooftop, with blinking lights, distant traffic. Business district at sunrise, with reflective glass, empty streets, warm light. Rainy city intersection, with umbrellas, taxis, reflections on pavement. Futuristic cyberpunk city with glowing holograms, flying vehicles, vibrant street markets. Crowded subway station, with commuters, tiled walls, flickering lights. Neon-lit downtown during a festival, with banners, street performers, crowds. Busy intersection during rainstorm, with umbrellas, traffic, wet pavement.",		
+			"HISTORICAL TOWNS": "Old cobblestone streets lined with stone houses, with lanterns, flower boxes, market stalls. Medieval-style town square, with fountain, timber-framed buildings, townsfolk. Renaissance-era harbor, with sailing ships, stone docks, seagulls. European hill town, with terracotta roofs, narrow streets, balconies. Desert trading town, with sandstone walls, colorful market tents, camels. Historic village square with fountain, market stalls, cobblestones. Colonial harbor town, with ships, warehouses, barrels.",		
+			"VILLAGES": "Quiet countryside village, with thatched cottages, dirt road, grazing cows. Mountain village in the Alps, with wooden chalets, snow-covered roofs, ski tracks. Seaside fishing village, with colorful boats, wooden piers, nets drying. Rolling farmland village, with windmill, barns, open fields. Forest-edge village, with log houses, smoke from chimneys, wooden fences. Mountain hamlet with wooden cabins, pine forests, clear skies. Small farming community with tractors, crop fields, dirt roads.",		
+			"INDUSTRIAL AREAS": "Rusty abandoned factory, with broken windows, overgrown weeds, graffiti. Busy shipping port, with cargo containers, cranes, docked ships. Power plant complex, with smokestacks, pipelines, control towers. Railway yard, with freight trains, warehouses, tracks. Oil refinery at night, with steam clouds, lights, towers. Old industrial district with brick warehouses, rusted metal, scattered trash.",		
+			"FUTURISTIC CITIES": "Neon-lit megacity, with flying cars, holograms, crowded skyways. Glass-domed eco-city, with vertical gardens, solar panels, clean streets. Underwater futuristic city, with bubble domes, glowing coral, submarines. Mars colony city, with red dust, domed habitats, rovers. Floating ocean city, with platforms, turbines, transport tubes. Cyberpunk cityscape with rain-soaked streets, neon lights, flying vehicles.",		
+			"RUINS": "Crumbling stone castle, with ivy-covered walls, broken gates, ravens. Overgrown modern city ruins, with vines, collapsed buildings, stray animals. Ancient temple half-buried in sand, with weathered statues, drifting dust, fallen columns. Forgotten monastery in the mountains, with broken bells, moss, silence. Flooded ruins of an old village, with submerged houses, reeds, fish. Abandoned factory with rusting machinery, broken windows, overgrowth."
+		},		
+		"INTERIOR": {
+			"HOMES": "Cozy living room, with fireplace, armchair, patterned rug. Minimalist modern apartment, with large windows, plants, neutral colors. Rustic kitchen, with wooden cabinets, copper pans, herb jars. Vintage bedroom with floral wallpaper, wooden furniture, lace curtains. Contemporary loft with open floor plan, exposed brick, sleek furniture. Traditional cottage interior with stone walls, wooden beams, fireplace.",		
+			"APARTMENTS": "Modern high-rise apartment with city views, glass walls, minimalist décor. Small urban studio with compact furniture, colorful art, large windows. Penthouse suite with rooftop terrace, panoramic city skyline, plants. Chic loft with industrial style, exposed pipes, large windows. Cozy apartment with warm lighting, plush cushions, bookshelves.",		
+			"OFFICES": "Creative design studio, with sketches, computers, scattered papers. Corporate office, with glass partitions, desks, office chairs. Open-plan tech startup workspace, with whiteboards, laptops, casual seating. Executive office with leather chairs, mahogany desk, city views. Industrial-style coworking space with communal tables, plants, natural light.",		
+			"STUDIOS": "Music recording studio, with instruments, mixing desk, soundproof walls. Art studio with canvases, paint supplies, natural light. Dance studio with wooden floors, mirrors, ballet barres. Photography studio with lighting rigs, backdrops, cameras. Film editing suite with multiple monitors, soundproofing, ergonomic chairs.",		
+			"LIBRARIES": "Grand library hall, with tall bookshelves, ladders, warm lighting. Modern university library, with study tables, computers, academic books. Ancient archive room, with scrolls, dusty cabinets, candlelight. Cozy reading nook with armchair, floor lamp, stack of books. Digital library with touchscreen terminals, sleek furniture.",		
+			"RESTAURANTS": "Cozy café, with pastries, steaming mugs, chalkboard menu. Elegant fine dining restaurant, with chandeliers, white tablecloths, wine glasses. Street food stall, with sizzling grill, colorful banners, hungry crowd. Rustic tavern with wooden tables, candlelight, and stone walls. Beachside seafood restaurant with open windows, ocean breeze.",		
+			"RELIGIOUS BUILDINGS": "Gothic cathedral interior, with stained glass windows, stone pillars, flickering candles. Japanese Shinto shrine, with torii gate, lanterns, wooden plaques. Middle Eastern mosque interior, with patterned carpets, domes, golden calligraphy. Buddhist temple with statues, incense smoke, wooden architecture. Small chapel with wooden pews, altar, stained glass.",		
+			"LABORATORIES": "High-tech laboratory, with glowing screens, microscopes, robotic arms. Hospital operating room, with surgical lights, instruments, sterile surfaces. Vintage chemistry lab, with glass beakers, bubbling liquids, chalkboard formulas. Bioengineering facility, with gene pods, robotic surgeons, glowing fluids. Astronomy observatory with telescopes, star charts, control panels."
+		},		
+		"FANTASY": {
+			"ENCHANTED FORESTS": "Glowing forest with magical fireflies, with twisted trees, sparkling moss, hidden pond. Ancient woodland with massive roots, with stone ruins, mystical mist, wildflowers. Crystal-lit cavern forest, with glowing mushrooms, underground river, giant ferns. Dark enchanted forest with shadowy figures, glowing eyes, twisted branches. Mystic grove with floating lights and shimmering plants. Faerie glen with colorful flowers, singing birds, and soft light.",		
+			"FLOATING ISLANDS": "Sky islands above clouds, with waterfalls cascading into mist, suspension bridges, airships, glowing plants. Giant floating rock garden, with cherry trees, koi ponds, zen paths. Steampunk flying fortress, with propellers, gears, smokestacks. Floating crystal spires reflecting sunlight. Islands drifting above a glowing magical sea.",		
+			"CASTLES": "Towering mountain castle, with banners, stone walls, drawbridge. Fairy tale palace, with golden spires, lush gardens, swan-filled moat. Dark fortress, with jagged towers, lava moat, storm clouds. Ancient ruined castle covered in vines and moss. Floating castle in the sky with radiant light. Haunted gothic castle with flickering torches and bats.",		
+			"MAGICAL PORTALS": "Ancient stone arch glowing with runes, with vines, mist, swirling vortex. Mirror portal in enchanted glade, with sparkles, flowers, moonlight. Doorway of light hovering in desert, with drifting sand, alien sky. Mystical gateway surrounded by floating glyphs and magical energy. Portal framed by twisting trees and glowing crystals.",		
+			"MYTHICAL UNDERWORLDS": "Shadowy cavern realm, with stalagmites, glowing eyes, black river. Molten underworld, with lava flows, obsidian cliffs, fire spirits. Frozen hellscape, with jagged ice, howling wind, ghostly figures. Dark abyssal trench with eerie blue light and strange creatures. Haunted catacombs with crumbling bones and flickering torches.",		
+			"CELESTIAL PALACES": "Golden palace among clouds, with marble pillars, sunbeams, birds. Starlit crystal citadel, with glowing towers, aurora sky, cosmic energy. Moon palace, with silver domes, lotus ponds, night blossoms. Palace floating on a sea of stars, with shimmering walkways. Heavenly throne room with radiant light and celestial beings."
+		},		
+		"FUTURISTIC": {
+			"SPACE STATIONS": "Massive orbital station, with docking bays, solar panels, observation deck. Ring-shaped habitat in space, with gardens, markets, living quarters. Battle station, with gun turrets, control rooms, starfields. Research lab in zero gravity with floating tools and glowing screens. Mining outpost on an asteroid with heavy machinery and dust clouds.",		
+			"ALIEN PLANETS": "Purple alien jungle, with glowing plants, floating rocks, strange creatures. Crimson desert world, with twin suns, spire rocks, alien ruins. Ocean planet, with endless waves, hovering platforms, bioengineered reefs. Ice planet with jagged ice formations and shimmering auroras. Volcanic alien world with rivers of lava and toxic atmosphere.",		
+			"CYBERPUNK STREETS": "Rain-soaked neon street, with holograms, noodle stands, shadowy alleys. Market district in cyber city, with glowing stalls, augmented people, buzzing drones. Sky bridge view, with giant screens, flying vehicles, skyscrapers. Dark alley with flickering neon signs and steam vents. Crowded nightclub entrance with pulsating lights and diverse crowd.",		
+			"MECH HANGARS": "Giant robot bay, with maintenance crews, steel beams, hydraulic lifts. Abandoned mech graveyard, with rusting parts, overgrown weeds, fog. Mobile mech fortress, with armor plating, missile racks, control towers. High-tech mech assembly line with robotic arms and sparks flying. Underground mech repair bunker with tools and diagnostic screens.",		
+			"FUTURISTIC LABS": "Zero-gravity research lab, with floating tools, holographic displays, specimen tanks. Bioengineering facility, with gene pods, robotic surgeons, glowing fluids. Time travel chamber, with energy arcs, control panels, spinning rings. AI development center with rows of servers and glowing interfaces. Quantum physics lab with particle accelerators and experimental setups."
+		},		
+		"ABSTRACT": {
+			"GEOMETRIC WORLDS": "Endless cubes and spheres floating in void, with sharp shadows, glossy surfaces, mirrored planes. Checkerboard landscape, with giant chess pieces, warped horizon, glowing grid. Mosaic tunnel, with shifting tiles, kaleidoscope colors, light beams. Floating polygons forming endless staircases and pathways. Symmetrical fractal landscapes with glowing edges and complex patterns.",		
+			"SURREAL DREAMSCAPES": "Desert with floating whales, with melting clocks, sand dunes, distant castle. Endless staircase in clouds, with floating doors, pastel sky, birds. Giant eye in horizon, with blooming flowers, cracked earth, golden light. Twisting landscapes folding into themselves with impossible angles. Dreamlike cityscape with distorted buildings and swirling skies.",		
+			"OPTICAL ILLUSIONS": "Impossible triangle landscape, with bridges, water, fog. Infinite mirror hallway, with lights, reflections, glass floor. Spiral cliffside city, with winding streets, hanging gardens, stars. Escher-style staircases twisting into endless loops. Floating cubes forming impossible stairways over water.",		
+			"COLOR PATTERNS": "Gradient sky over ocean, with smooth waves, soft reflections, pastel clouds. Vivid splash of neon colors, with abstract shapes, glowing edges, black background. Monochrome minimalist scene, with sharp lines, high contrast, deep shadows. Swirling color vortex with bright hues and dynamic flow. Geometric color blocks arranged in symmetrical patterns."
+		},		
+		"MISCELLANEOUS": {
+			"SPACE": "Star-filled sky with distant galaxies, nebulae, and shooting stars. Orbiting planets with colorful rings and moons. Spacecraft flying near asteroid belt with glowing engines. Alien moonscape with cratered surface and glowing minerals. Deep space black hole with swirling accretion disk.",		
+			"UNDERWATER": "Sunlight filtering through clear ocean water, with schools of fish and coral reefs. Deep sea trench with bioluminescent creatures and glowing plants. Shipwreck resting on sandy ocean floor, with seaweed and fish. Kelp forest swaying in underwater currents, with sea otters and seals. Vibrant coral garden with clownfish and sea anemones.",		
+			"WEATHER EVENTS": "Thunderstorm with dark clouds, lightning bolts, and heavy rain. Foggy morning in valley with soft diffused light. Snowfall in pine forest, with thick snow on branches and ground. Sunrise after rain with colorful sky and wet pavement reflections. Dust storm sweeping across desert plains with swirling sand.",		
+			"NIGHT SCENES": "Starry night over quiet village with glowing windows and moonlight. Neon-lit city street with reflections on wet asphalt. Calm lake reflecting moon and stars, with fireflies on shore. Dark forest path with glowing mushrooms and soft blue light. Midnight desert under clear sky with visible Milky Way.",		
+			"SEASONAL": "Cherry blossom trees in full bloom, with pink petals falling in spring. Summer meadow with tall green grass and bright sun. Autumn forest with vibrant orange and red leaves. Winter landscape with snow-covered fields and icy rivers. Rainy day in a small town with puddles and cloudy skies."
+		}		
+	}	
+}
