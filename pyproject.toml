@@ -1,7 +1,7 @@
 [project]
 name = "Artha-Gemini"
 description = "ComfyUI custom nodes for interacting with the Gemini api for image and video generation prompting."
-version = "1.2.0"
+version = "1.3.0"
 license = { file = "LICENSE" }
 dependencies = ["torch", "numpy", "Pillow>=11.0.0", "google-generativeai", "google-genai"]
 
@@ -12,4 +12,5 @@ Repository = "https://github.com/Cyrostar/Artha-Gemini"
 PublisherId = "cyrostar"
 DisplayName = "Artha-Gemini"
 Icon = "🔱"
+
 
