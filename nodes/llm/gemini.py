@@ -618,6 +618,7 @@ class GeminiPrompter:
 class GeminiCondense:
     
     CATEGORY = main_cetegory() + "/LLM"
+    DESCRIPTION = "Gemini Question node condenses a propt to a target word count preserving the concept."
     
     def __init__(self):
         pass
@@ -1490,7 +1491,7 @@ class GeminiForm:
 class GeminiCloth:
     
     CATEGORY = main_cetegory() + "/LLM"
-    DESCRIPTION = "Describes clothing of the subject."
+    DESCRIPTION = "Describes the clothing of the subject."
     
     @classmethod
     def INPUT_TYPES(self):
@@ -1566,7 +1567,7 @@ class GeminiCloth:
 class GeminiMakeup:
     
     CATEGORY = main_cetegory() + "/LLM"
-    DESCRIPTION = "Describes make-up of the subject."
+    DESCRIPTION = "Describes the make-up of the subject."
     
     @classmethod
     def INPUT_TYPES(self):
@@ -1884,11 +1885,16 @@ class GeminiCompose:
             system_instruction += "Carefully analyze it and describe the features listed below in detail.\n\n"
             
             system_instruction += "Features to extract: \n"
-            system_instruction += "- Facial features \n"
-            system_instruction += "- Body characteristics \n"
-            system_instruction += "- Fitness indicators \n"
-            system_instruction += "- Clothing style and appearance \n"
-            system_instruction += "- Makeup details \n"
+            system_instruction += "- Subject(s) \n"
+            system_instruction += "- Scene and background \n"
+            system_instruction += "- Camera settings and framing \n"
+            system_instruction += "- Light \n"
+            system_instruction += "- Style \n"
+            system_instruction += "- Atmosphere \n"
+            system_instruction += "- Mood \n\n"
+            
+            system_instruction += "Include face, hair, makeup, body, fitness, pose, and clothing of the main subjects(s). " 
+            system_instruction += "Also include the interactions if the subjects are more than one. \n\n" 
             
             image_path = folder_paths.get_annotated_filepath(image)
             
@@ -1931,11 +1937,16 @@ class GeminiCompose:
             system_instruction += "Carefully analyze it and describe the features listed below in detail.\n\n"
             
             system_instruction += "Features to extract: \n"
-            system_instruction += "- Facial features \n"
-            system_instruction += "- Body characteristics \n"
-            system_instruction += "- Fitness indicators \n"
-            system_instruction += "- Clothing style and appearance \n"
-            system_instruction += "- Makeup details \n\n"
+            system_instruction += "- Subject(s) \n"
+            system_instruction += "- Scene and background \n"
+            system_instruction += "- Camera settings and framing \n"
+            system_instruction += "- Light \n"
+            system_instruction += "- Style \n"
+            system_instruction += "- Atmosphere \n"
+            system_instruction += "- Mood \n\n"
+            
+            system_instruction += "Include face, hair, makeup, body, fitness, pose, and clothing of the main subjects(s). " 
+            system_instruction += "Also include the interactions if the subjects are more than one. \n\n" 
             
             system_instruction += "Change the attributes you identified from the image with the ones that are listed " 
             system_instruction += "in the property list if there is a confliction. For example if the eye color you "
