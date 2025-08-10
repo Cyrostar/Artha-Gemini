@@ -1755,7 +1755,7 @@ class GeminiCompose:
                 "image": (sorted(files), {"image_upload": True})
             },
             "optional": {
-                "subject": ("STRING", {"forceInput":True}),
+                "subject": ("ARTHASUBJECT", {"forceInput":True}),
                 "scene": ("ARTHASCENERY", {"forceInput":True}),                 
                 "camera": ("ARTHACAM", {"forceInput":True}),  
                 "light": ("ARTHALIGHT", {"forceInput":True}),
@@ -1801,7 +1801,11 @@ class GeminiCompose:
         system_instruction += "Begin your output directly without any introductory sentence or summary phrase. \n\n"
                 
         property_list = ""
-
+        
+        if subject:
+            
+            property_list += subject
+                       
         if scene:
             
             if property_list: property_list += "\n\n"  
@@ -2011,6 +2015,111 @@ class GeminiCompose:
                 print(error_msg)
                 return (error_msg,)
                 
+#################################################
+
+class GeminiSubject:
+    
+    CATEGORY = main_cetegory() + "/LLM"
+    DESCRIPTION = "Subject settings for image or video prompting."
+    DESCRIPTION += "If use image is selected the setting are fetched "
+    DESCRIPTION += "from the uploaded image by Gemini Vision. "
+   
+    extra_params = {
+        "use_image": ("BOOLEAN", {"default": False}),
+        "only_main": ("BOOLEAN", {"default": True}),
+    }
+        
+    @classmethod
+    def INPUT_TYPES(self):
+        
+        comfyui_input_dir = folder_paths.get_input_directory()
+        image_file_list = [f for f in os.listdir(comfyui_input_dir) if os.path.isfile(os.path.join(comfyui_input_dir, f))]
+        
+        return {
+            "required": {
+                "text_prompt": ("STRING", {
+                    "multiline": True,
+                    "default": "A cat with a hat"
+                }),
+                **gemini_api_parameters(),
+                **self.extra_params,
+                "image": (sorted(image_file_list), {"image_upload": True}),
+            }
+        }
+    
+    RETURN_TYPES = ("ARTHASUBJECT",)
+    RETURN_NAMES = ("subject",)
+    FUNCTION = "artha_main"
+
+    def artha_main(self, text_prompt, api_key, model, max_tokens, temperature, use_image, only_main, image, **kwargs):
+    
+        response = ""
+        
+        # Validate API key
+        if not api_key:
+            
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response,)
+        
+        if image and use_image :
+            
+            text_prompt = "Describe the subject in detail."
+            
+            image_path = folder_paths.get_annotated_filepath(image)
+            
+            try:
+                
+                pil_image = Image.open(image_path).convert("RGB")
+                
+            except Exception as e:
+                
+                print(f"Error opening image: {e}")
+                return (response,)
+             
+            if only_main:
+            
+                system_instruction = load_agent("subject")
+                
+            else:
+            
+                system_instruction = load_agent("subjects")
+                    
+            try:           
+                # Call Gemini API
+                response = call_gemini_text_api(
+                    text_prompt,
+                    pil_image,  
+                    system_instruction,
+                    api_key, 
+                    model, 
+                    max_tokens, 
+                    temperature
+                )
+                               
+                response = response.replace("*", "")
+                response = response.replace("#", "")
+                response = response.upper()
+                
+                return (response,)
+                
+            except Exception as e:
+                
+                error_msg = f"Error processing request: {str(e)}"
+                print(error_msg)
+                return (response,)
+                       
+        else:
+            
+            response = text_prompt
+            
+            return (response,)
+            
 #################################################
 
 class GeminiCamera:
@@ -2666,8 +2775,8 @@ class GeminiScenery:
                 
                 error_msg = f"Error processing request: {str(e)}"
                 print(error_msg)
-                return (response, markdown)             
-               
+                return (response, markdown)
+                         
 #################################################
 ####################DISPLAY######################
 #################################################  
@@ -2806,6 +2915,7 @@ NODE_CLASS_MAPPINGS = {
     "Gemini Makeup": GeminiMakeup,    
     "Gemini Backdrop": GeminiBackdrop,
     "Gemini Compose": GeminiCompose,
+    "Gemini Subject": GeminiSubject,
     "Gemini Scenery": GeminiScenery,
     "Gemini Camera": GeminiCamera,
     "Gemini Light": GeminiLight,
@@ -2832,6 +2942,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Gemini Makeup": node_prefix() + " Gemini Makeup",
     "Gemini Backdrop": node_prefix() + " Gemini Backdrop",
     "Gemini Compose": node_prefix() + " Gemini Compose",
+    "Gemini Subject": node_prefix() + " Gemini Subject",
     "Gemini Scenery": node_prefix() + " Gemini Scenery",
     "Gemini Camera": node_prefix() + " Gemini Camera",
     "Gemini Light": node_prefix() + " Gemini Light",
