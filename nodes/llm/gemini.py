@@ -3,6 +3,7 @@ import json
 import random
 
 from PIL import Image
+import numpy as np
 
 import folder_paths
 
@@ -10,6 +11,7 @@ from ...core.node import node_path, node_prefix, main_cetegory
 from ...core.api import load_api_key
 from ...core.llm import call_gemini_text_api
 from ...core.llm import call_gemini_image_api
+from ...core.llm import call_gemini_tts_api
 from ...core.llm import gemini_api_parameters
 from ...core.llm import load_agent
 from ...core.img import tensor_to_pil_image, resize_image_shortest
@@ -63,26 +65,26 @@ class GeminiQuestion:
         text_prompt = question
         
         try:
-           
-            image_base64 = None
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                image_base64,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
+            
+            response = call_gemini_text_api(**kwargs)
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 ################################################# 
 
@@ -139,26 +141,26 @@ class GeminiOperation:
         text_prompt = source
         
         try:
-           
-            image_base64 = None
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                image_base64,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
+            
+            response = call_gemini_text_api(**kwargs)
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 ################################################# 
 
@@ -215,32 +217,32 @@ class GeminiTranslate:
         text_prompt = text
         
         try:
-           
-            image_base64 = None
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                image_base64,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
+            
+            response = call_gemini_text_api(**kwargs)
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 #################################################
 
 class GeminiImagen:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/IMG"
     DESCRIPTION = "Gemini Imagen node is for image generation and modification."
     
     @classmethod
@@ -346,7 +348,78 @@ class GeminiImagen:
             print(error_msg)
             return (tensor, response,)
                              
-         
+#################################################
+
+class GeminiSpeech:
+    
+    CATEGORY = main_cetegory() + "/TTS"
+    DESCRIPTION = "Generates speech from text using the Gemini TTS model."
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, "json", "speech.json")
+    
+    with open(json_path, 'r') as file:
+        
+        speech = json.load(file)
+        
+    speakers = speech['Speakers']
+    language = speech['Languages']
+    
+    @classmethod
+    def INPUT_TYPES(self):
+
+        return {
+            "required": {
+                "text_prompt": ("STRING", {
+                    "multiline": True,
+                    "default": "A cat with a hat"
+                }),
+                "voice": (list(self.speakers.keys()), { "default": "Kore" }),
+                "api_key": ("STRING", {
+                    "multiline": False,
+                    "default": "",
+                    "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
+                }),
+                "temperature": ("FLOAT", {
+                    "default": 0.7,
+                    "min": 0.0,
+                    "max": 2.0,
+                    "step": 0.1,
+                    "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
+                }),
+            },
+        }
+           
+    RETURN_TYPES = ("AUDIO",)
+    RETURN_NAMES = ("audio",)
+    FUNCTION = "artha_main"
+
+    def artha_main(self, text_prompt, voice, api_key, temperature):
+        
+        audio = None
+        
+        # Validate API key
+        if not api_key:
+            
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (audio,)       
+                                       
+        # Call Gemini API
+        audio = call_gemini_tts_api(
+            text_prompt,
+            voice,
+            api_key, 
+            temperature
+        )
+        
+        return (audio,)
+                      
 #################################################
 
 class GeminiVision:
@@ -402,29 +475,32 @@ class GeminiVision:
             system_instruction = load_agent("vision")
                 
         try:
+           
             # Convert tensor directly to base64
             pil_image = tensor_to_pil_image(image)
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                pil_image,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'image'             : pil_image,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
             
-            response = response.replace("*", "")
-            response = response.replace("#", "")
+            response = call_gemini_text_api(**kwargs)
+            
+            response = response.translate(str.maketrans("", "", "*#"))
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 #################################################
 
@@ -491,6 +567,7 @@ class GeminiMotion:
             
             for img in image:
                 
+                # Convert tensor directly to base64
                 imp = tensor_to_pil_image(img)
                 
                 if resize == "480p":
@@ -505,28 +582,30 @@ class GeminiMotion:
                     
                     imp = resize_image_shortest(imp, 240)
                 
-                pil_images.append(imp)
-                
+                pil_images.append(imp)                
+           
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                pil_images,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'image'             : pil_images,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
             
-            response = response.replace("*", "")
-            response = response.replace("#", "")
+            response = call_gemini_text_api(**kwargs)
+            
+            response = response.translate(str.maketrans("", "", "*#"))
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
 
 #################################################
 
@@ -592,26 +671,26 @@ class GeminiPrompter:
                 system_instruction = load_agent("enrich_video")
         
         try:
-           
-            image_base64 = None
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                image_base64,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
+            
+            response = call_gemini_text_api(**kwargs)
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 #################################################
 
@@ -677,26 +756,26 @@ class GeminiCondense:
         system_instruction += "The final output must be optimized for current text-to-image AI models. \n\n"
         
         try:
-           
-            image_base64 = None
             
             # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                image_base64,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
+            kwargs = {
+                'text_prompt'       : text_prompt,
+                'system_instruction': system_instruction,
+                'api_key'           : api_key,
+                'model'             : model,
+                'max_tokens'        : max_tokens,
+                'temperature'       : temperature
+            }
+            
+            response = call_gemini_text_api(**kwargs)
             
             return (response,)
             
         except Exception as e:
+            
             error_msg = f"Error processing request: {str(e)}"
             print(error_msg)
-            return (error_msg,)
+            return (response,)
             
 #################################################
 ####################PROFILE######################
@@ -738,7 +817,7 @@ class GeminiPortrait:
                     "default": "portrait"
                 }),
                 **gemini_api_parameters(),
-                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "control_after_generate": True,}),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "control_after_generate": True}),
                 "use_image": ("BOOLEAN", {"default": False}),
                 "reconstruct": ("BOOLEAN", {"default": False}),
                 "image": (sorted(files), {"image_upload": True})
@@ -839,7 +918,7 @@ class GeminiPortrait:
                 
         if body:
             
-            if isinstance(face, dict):
+            if isinstance(body, dict):
             
                 for key, value in body.items():
                     
@@ -900,35 +979,37 @@ class GeminiPortrait:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature,
+                        'seed'              : seed
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, property_list)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, property_list)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-            
-            try:
-                
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                
                 return (response, property_list)
-                
-            except Exception as e:
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (error_msg,)
-                
-                
+                           
         elif image and use_image and reconstruct :
             
             system_instruction += "Use the provided image as your main reference. "
@@ -956,33 +1037,36 @@ class GeminiPortrait:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature,
+                        'seed'              : seed
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, property_list)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, property_list)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-            
-            try:
-                
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                
-                return (response, property_list)                
-                
-            except Exception as e:
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (error_msg,)
+                return (response, property_list)
             
         else:
             
@@ -996,28 +1080,28 @@ class GeminiPortrait:
                
             try:
                 
-                pil_image = None
-                
                 # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature,
+                    'seed'              : seed
+                }
                 
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-        
-                return (response, property_list)                 
-            
+                response = call_gemini_text_api(**kwargs)
+                
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response, property_list)
+                
             except Exception as e:
+                
                 error_msg = f"Error processing request: {str(e)}"
                 print(error_msg)
-                return (error_msg,)
+                return (response, property_list)
                 
 #################################################
 
@@ -1109,41 +1193,42 @@ class GeminiFace:
             
             text_prompt = "Describe the face in detail."
             
-            image_path = folder_paths.get_annotated_filepath(image)
+            system_instruction = load_agent("face")
             
+            image_path = folder_paths.get_annotated_filepath(image)
+                            
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response,)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response,)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-                    
-            system_instruction = load_agent("face")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response,)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
                 return (response,)
                        
         else:
@@ -1278,41 +1363,42 @@ class GeminiBody:
             
             text_prompt = "Describe the body in detail."
             
-            image_path = folder_paths.get_annotated_filepath(image)
+            system_instruction = load_agent("body")
             
+            image_path = folder_paths.get_annotated_filepath(image)
+                            
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response,)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response,)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-                    
-            system_instruction = load_agent("body")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response,)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
                 return (response,)
                        
         else:
@@ -1426,40 +1512,42 @@ class GeminiForm:
             
             text_prompt = "Describe the fitness in detail."
             
-            image_path = folder_paths.get_annotated_filepath(image)
+            system_instruction = load_agent("form")
             
+            image_path = folder_paths.get_annotated_filepath(image)
+                            
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response,)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response,)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-                    
-            system_instruction = load_agent("form")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                
-                return (response,)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
                 return (response,)
                        
         else:
@@ -1526,40 +1614,42 @@ class GeminiCloth:
         
         text_prompt = "Identify the clothes and list each one."
         
+        system_instruction = load_agent("cloth")
+            
         image_path = folder_paths.get_annotated_filepath(image)
-        
+                            
         try:
             
             pil_image = Image.open(image_path).convert("RGB")
             
+            try:
+                
+                # Call Gemini API
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'image'             : pil_image,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature
+                }
+                
+                response = call_gemini_text_api(**kwargs)
+                
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response,)
+                
+            except Exception as e:
+                
+                error_msg = f"Error processing request: {str(e)}"
+                print(error_msg)
+                return (response,)
+            
         except Exception as e:
             
             print(f"Error opening image: {e}")
-            return (response,)
-                 
-        system_instruction = load_agent("cloth")
-                
-        try:           
-            # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                pil_image,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
-            
-            response = response.replace("*", "")
-            response = response.replace("#", "")
-            response = response.upper()
-            
-            return (response,)
-            
-        except Exception as e:
-            error_msg = f"Error processing request: {str(e)}"
-            print(error_msg)
             return (response,)
             
 #################################################
@@ -1602,40 +1692,42 @@ class GeminiMakeup:
         
         text_prompt = "Identify the make-up of the face and list each element."
         
+        system_instruction = load_agent("makeup")
+            
         image_path = folder_paths.get_annotated_filepath(image)
-        
+                            
         try:
             
             pil_image = Image.open(image_path).convert("RGB")
             
+            try:
+                
+                # Call Gemini API
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'image'             : pil_image,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature
+                }
+                
+                response = call_gemini_text_api(**kwargs)
+                
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response,)
+                
+            except Exception as e:
+                
+                error_msg = f"Error processing request: {str(e)}"
+                print(error_msg)
+                return (response,)
+            
         except Exception as e:
             
             print(f"Error opening image: {e}")
-            return (response,)
-                 
-        system_instruction = load_agent("makeup")
-                
-        try:           
-            # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                pil_image,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
-            
-            response = response.replace("*", "")
-            response = response.replace("#", "")
-            response = response.upper()
-            
-            return (response,)
-            
-        except Exception as e:
-            error_msg = f"Error processing request: {str(e)}"
-            print(error_msg)
             return (response,)
             
 #################################################
@@ -1678,39 +1770,42 @@ class GeminiBackdrop:
         
         text_prompt = "Describe the background."
         
+        system_instruction = load_agent("backdrop")
+            
         image_path = folder_paths.get_annotated_filepath(image)
-        
+                            
         try:
             
             pil_image = Image.open(image_path).convert("RGB")
             
+            try:
+                
+                # Call Gemini API
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'image'             : pil_image,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature
+                }
+                
+                response = call_gemini_text_api(**kwargs)
+                
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response,)
+                
+            except Exception as e:
+                
+                error_msg = f"Error processing request: {str(e)}"
+                print(error_msg)
+                return (response,)
+            
         except Exception as e:
             
             print(f"Error opening image: {e}")
-            return (response,)
-                 
-        system_instruction = load_agent("backdrop")
-                
-        try:           
-            # Call Gemini API
-            response = call_gemini_text_api(
-                text_prompt,
-                pil_image,  
-                system_instruction,
-                api_key, 
-                model, 
-                max_tokens, 
-                temperature
-            )
-            
-            response = response.replace("*", "")
-            response = response.replace("#", "")
-            
-            return (response,)
-            
-        except Exception as e:
-            error_msg = f"Error processing request: {str(e)}"
-            print(error_msg)
             return (response,)
                
 #################################################
@@ -1902,33 +1997,36 @@ class GeminiCompose:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature,
+                        'seed'              : seed
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, property_list)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, property_list)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-            
-            try:
-                
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                
                 return (response, property_list)
-                
-            except Exception as e:
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (error_msg,)
                 
                 
         elif image and use_image and reconstruct :
@@ -1963,33 +2061,36 @@ class GeminiCompose:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature,
+                        'seed'              : seed
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, property_list)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, property_list)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response,)
-            
-            try:
-                
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                
-                return (response, property_list)                
-                
-            except Exception as e:
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (error_msg,)
+                return (response, property_list)
             
         else:
             
@@ -2003,28 +2104,28 @@ class GeminiCompose:
                
             try:
                 
-                pil_image = None
-                
                 # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature,
+                    'seed'              : seed
+                }
                 
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-        
-                return (response, property_list)                 
+                response = call_gemini_text_api(**kwargs)
+                
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response, property_list)               
             
             except Exception as e:
+                
                 error_msg = f"Error processing request: {str(e)}"
                 print(error_msg)
-                return (error_msg,)
+                return (response, property_list)
                 
 #################################################
 
@@ -2082,17 +2183,6 @@ class GeminiSubject:
             
             text_prompt = "Describe the subject in detail."
             
-            image_path = folder_paths.get_annotated_filepath(image)
-            
-            try:
-                
-                pil_image = Image.open(image_path).convert("RGB")
-                
-            except Exception as e:
-                
-                print(f"Error opening image: {e}")
-                return (response,)
-             
             if only_main:
             
                 system_instruction = load_agent("subject")
@@ -2100,29 +2190,41 @@ class GeminiSubject:
             else:
             
                 system_instruction = load_agent("subjects")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
+                           
+            image_path = folder_paths.get_annotated_filepath(image)
+            
+            try:
                 
-                return (response,)
+                pil_image = Image.open(image_path).convert("RGB")
+                
+                try:
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                    
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response,)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response,)
                 
             except Exception as e:
                 
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
+                print(f"Error opening image: {e}")
                 return (response,)
                        
         else:
@@ -2130,6 +2232,178 @@ class GeminiSubject:
             response = text_prompt
             
             return (response,)
+            
+################################################# 
+
+class GeminiScenery:
+    
+    CATEGORY = main_cetegory() + "/LLM"
+    DESCRIPTION = "Scene settings for image or video prompting."
+    DESCRIPTION += "If use image is selected the setting are fetched "
+    DESCRIPTION += "from the uploaded image by Gemini Vision. "
+    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, "json", "compose.json")
+    
+    with open(json_path, 'r') as file:
+        
+        scenery = json.load(file)
+        
+    markdown = "# SCENE OPTIONS"
+    markdown += "\n\n"
+    
+    for k, v in scenery['SCENERY'].items():
+        
+        markdown += "## " + k
+        markdown += "\n"
+        
+        if isinstance(v, dict):
+
+            for kk, vv in v.items():
+                markdown += "- " + kk + ": " + str(vv)
+                markdown += "\n"
+        else:
+ 
+            markdown += "### " + str(v)
+            markdown += "\n"
+        
+        markdown += "\n"        
+        
+    SCENERY_LANDSCAPES      = scenery['SCENERY']['LANDSCAPES']
+    SCENERY_URBAN           = scenery['SCENERY']['URBAN']
+    SCENERY_INTERIOR        = scenery['SCENERY']['INTERIOR']
+    SCENERY_FANTASY         = scenery['SCENERY']['FANTASY']
+    SCENERY_FUTURISTIC      = scenery['SCENERY']['FUTURISTIC']
+    SCENERY_ABSTRACT        = scenery['SCENERY']['ABSTRACT']
+    SCENERY_MISCELLANEOUS   = scenery['SCENERY']['MISCELLANEOUS']
+
+   
+    extra_params = {
+        "use_image": ("BOOLEAN", {"default": False}),
+    }
+        
+    @classmethod
+    def INPUT_TYPES(self):
+        
+        comfyui_input_dir = folder_paths.get_input_directory()
+        image_file_list = [f for f in os.listdir(comfyui_input_dir) if os.path.isfile(os.path.join(comfyui_input_dir, f))]
+        
+        return {
+            "required": {
+                "landscapes":       (["NONE"] + list(self.SCENERY_LANDSCAPES      .keys()),   { "default": "NONE" }),
+                "urban":            (["NONE"] + list(self.SCENERY_URBAN           .keys()),   { "default": "NONE" }),
+                "interior":         (["NONE"] + list(self.SCENERY_INTERIOR        .keys()),   { "default": "NONE" }),
+                "fantasy":          (["NONE"] + list(self.SCENERY_FANTASY         .keys()),   { "default": "NONE" }),
+                "futuristic":       (["NONE"] + list(self.SCENERY_FUTURISTIC      .keys()),   { "default": "NONE" }),
+                "abstract":         (["NONE"] + list(self.SCENERY_ABSTRACT        .keys()),   { "default": "NONE" }),
+                "miscellaneous":    (["NONE"] + list(self.SCENERY_MISCELLANEOUS   .keys()),   { "default": "NONE" }),
+                **gemini_api_parameters(),
+                **self.extra_params,
+                "image": (sorted(image_file_list), {"image_upload": True}),
+            }
+        }
+    
+    RETURN_TYPES = ("ARTHASCENERY", "STRING")
+    RETURN_NAMES = ("scene", "markdown")
+    FUNCTION = "artha_main"
+
+    def artha_main(self, landscapes, urban, interior, fantasy, futuristic, abstract, miscellaneous, api_key, model, max_tokens, temperature, use_image, image, **kwargs):
+    
+        response = ""
+        
+        markdown = self.markdown
+        
+        # Validate API key
+        if not api_key:
+            
+            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
+            
+        if not api_key:
+            
+            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
+            print(error_msg)
+            
+            return (response, markdown)
+        
+        if image and use_image :
+            
+            text_prompt = "Describe the scene in detail."
+            
+            system_instruction = load_agent("scenery")
+            
+            image_path = folder_paths.get_annotated_filepath(image)
+            
+            try:
+                
+                pil_image = Image.open(image_path).convert("RGB")
+                
+                try:           
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                        
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, markdown)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, markdown)
+                
+            except Exception as e:
+                
+                print(f"Error opening image: {e}")
+                return (response, markdown)
+                       
+        else:
+            
+            text_prompt = ""
+            
+            if landscapes       != "NONE": text_prompt += self.SCENERY_LANDSCAPES[landscapes]
+            if urban            != "NONE": text_prompt += self.SCENERY_URBAN[urban]
+            if interior         != "NONE": text_prompt += self.SCENERY_INTERIOR[interior]
+            if fantasy          != "NONE": text_prompt += self.SCENERY_FANTASY[fantasy]
+            if futuristic       != "NONE": text_prompt += self.SCENERY_FUTURISTIC[futuristic]
+            if abstract         != "NONE": text_prompt += self.SCENERY_ABSTRACT[abstract]
+            if miscellaneous    != "NONE": text_prompt += self.SCENERY_MISCELLANEOUS[miscellaneous]
+            
+            system_instruction = load_agent("scene")
+
+            try:
+                
+                # Call Gemini API
+                kwargs = {
+                    'text_prompt'       : text_prompt,
+                    'system_instruction': system_instruction,
+                    'api_key'           : api_key,
+                    'model'             : model,
+                    'max_tokens'        : max_tokens,
+                    'temperature'       : temperature
+                }
+                
+                response = call_gemini_text_api(**kwargs)
+                    
+                response = response.translate(str.maketrans("", "", "*#"))
+                
+                return (response, markdown)
+                
+            except Exception as e:
+                
+                error_msg = f"Error processing request: {str(e)}"
+                print(error_msg)
+                return (response, markdown)
             
 #################################################
 
@@ -2245,43 +2519,44 @@ class GeminiCamera:
             
             text_prompt = "Describe the camera settings in detail."
             
+            system_instruction = load_agent("camera")
+            
             image_path = folder_paths.get_annotated_filepath(image)
             
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:           
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                        
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, markdown)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, markdown)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
                 return (response, markdown)
-                    
-            system_instruction = load_agent("camera")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response, markdown)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (response, markdown)
-                       
+                                          
         else:
             
             cam_dict = {}
@@ -2417,41 +2692,42 @@ class GeminiLight:
             
             text_prompt = "Describe the light settings in detail."
             
+            system_instruction = load_agent("light")
+            
             image_path = folder_paths.get_annotated_filepath(image)
             
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:           
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                        
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, markdown)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, markdown)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response, markdown)
-                    
-            system_instruction = load_agent("light")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response, markdown)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
                 return (response, markdown)
                        
         else:
@@ -2567,226 +2843,55 @@ class GeminiStyle:
             
             text_prompt = "Describe the style in detail."
             
+            system_instruction = load_agent("style")
+            
             image_path = folder_paths.get_annotated_filepath(image)
             
             try:
                 
                 pil_image = Image.open(image_path).convert("RGB")
                 
+                try:           
+                    
+                    # Call Gemini API
+                    kwargs = {
+                        'text_prompt'       : text_prompt,
+                        'image'             : pil_image,
+                        'system_instruction': system_instruction,
+                        'api_key'           : api_key,
+                        'model'             : model,
+                        'max_tokens'        : max_tokens,
+                        'temperature'       : temperature
+                    }
+                    
+                    response = call_gemini_text_api(**kwargs)
+                        
+                    response = response.translate(str.maketrans("", "", "*#"))
+                    
+                    return (response, markdown)
+                    
+                except Exception as e:
+                    
+                    error_msg = f"Error processing request: {str(e)}"
+                    print(error_msg)
+                    return (response, markdown)
+                
             except Exception as e:
                 
                 print(f"Error opening image: {e}")
-                return (response, markdown)
-                    
-            system_instruction = load_agent("style")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response, markdown)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
                 return (response, markdown)
                        
         else:
             
             style_dict = {}
       
-            style_dict['LIGHT_TRADITIONAL ']    = traditional
-            style_dict['LIGHT_MODERN']          = modern     
-            style_dict['LIGHT_PHOTOGRAPHIC']    = photographic
-            style_dict['LIGHT_NAMED']           = named     
-            style_dict['LIGHT_INSPIRED']        = inspired          
+            style_dict['STYLE_TRADITIONAL ']    = traditional
+            style_dict['STYLE_MODERN']          = modern     
+            style_dict['STYLE_PHOTOGRAPHIC']    = photographic
+            style_dict['STYLE_NAMED']           = named     
+            style_dict['STYLE_INSPIRED']        = inspired          
                    
             return (style_dict, markdown)
-
-################################################# 
-
-class GeminiScenery:
-    
-    CATEGORY = main_cetegory() + "/LLM"
-    DESCRIPTION = "Scene settings for image or video prompting."
-    DESCRIPTION += "If use image is selected the setting are fetched "
-    DESCRIPTION += "from the uploaded image by Gemini Vision. "
-    
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(current_dir, "json", "compose.json")
-    
-    with open(json_path, 'r') as file:
-        
-        scenery = json.load(file)
-        
-    markdown = "# SCENE OPTIONS"
-    markdown += "\n\n"
-    
-    for k, v in scenery['SCENERY'].items():
-        
-        markdown += "## " + k
-        markdown += "\n"
-        
-        if isinstance(v, dict):
-
-            for kk, vv in v.items():
-                markdown += "- " + kk + ": " + str(vv)
-                markdown += "\n"
-        else:
- 
-            markdown += "### " + str(v)
-            markdown += "\n"
-        
-        markdown += "\n"        
-        
-    SCENERY_LANDSCAPES      = scenery['SCENERY']['LANDSCAPES']
-    SCENERY_URBAN           = scenery['SCENERY']['URBAN']
-    SCENERY_INTERIOR        = scenery['SCENERY']['INTERIOR']
-    SCENERY_FANTASY         = scenery['SCENERY']['FANTASY']
-    SCENERY_FUTURISTIC      = scenery['SCENERY']['FUTURISTIC']
-    SCENERY_ABSTRACT        = scenery['SCENERY']['ABSTRACT']
-    SCENERY_MISCELLANEOUS   = scenery['SCENERY']['MISCELLANEOUS']
-
-   
-    extra_params = {
-        "use_image": ("BOOLEAN", {"default": False}),
-    }
-        
-    @classmethod
-    def INPUT_TYPES(self):
-        
-        comfyui_input_dir = folder_paths.get_input_directory()
-        image_file_list = [f for f in os.listdir(comfyui_input_dir) if os.path.isfile(os.path.join(comfyui_input_dir, f))]
-        
-        return {
-            "required": {
-                "landscapes":       (["NONE"] + list(self.SCENERY_LANDSCAPES      .keys()),   { "default": "NONE" }),
-                "urban":            (["NONE"] + list(self.SCENERY_URBAN           .keys()),   { "default": "NONE" }),
-                "interior":         (["NONE"] + list(self.SCENERY_INTERIOR        .keys()),   { "default": "NONE" }),
-                "fantasy":          (["NONE"] + list(self.SCENERY_FANTASY         .keys()),   { "default": "NONE" }),
-                "futuristic":       (["NONE"] + list(self.SCENERY_FUTURISTIC      .keys()),   { "default": "NONE" }),
-                "abstract":         (["NONE"] + list(self.SCENERY_ABSTRACT        .keys()),   { "default": "NONE" }),
-                "miscellaneous":    (["NONE"] + list(self.SCENERY_MISCELLANEOUS   .keys()),   { "default": "NONE" }),
-                **gemini_api_parameters(),
-                **self.extra_params,
-                "image": (sorted(image_file_list), {"image_upload": True}),
-            }
-        }
-    
-    RETURN_TYPES = ("ARTHASCENERY", "STRING")
-    RETURN_NAMES = ("scene", "markdown")
-    FUNCTION = "artha_main"
-
-    def artha_main(self, landscapes, urban, interior, fantasy, futuristic, abstract, miscellaneous, api_key, model, max_tokens, temperature, use_image, image, **kwargs):
-    
-        response = ""
-        
-        markdown = self.markdown
-        
-        # Validate API key
-        if not api_key:
-            
-            api_key = load_api_key("gemini") or os.environ.get("GEMINI_API_KEY")
-            
-        if not api_key:
-            
-            error_msg = "No API key provided. Please provide an API key or set GEMINI_API_KEY environment variable."
-            print(error_msg)
-            
-            return (response, markdown)
-        
-        if image and use_image :
-            
-            text_prompt = "Describe the scene in detail."
-            
-            image_path = folder_paths.get_annotated_filepath(image)
-            
-            try:
-                
-                pil_image = Image.open(image_path).convert("RGB")
-                
-            except Exception as e:
-                
-                print(f"Error opening image: {e}")
-                return (response, markdown)
-                    
-            system_instruction = load_agent("scenery")
-                    
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response, markdown)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (response, markdown)
-                       
-        else:
-            
-            text_prompt = ""
-            pil_image = None
-            
-            if landscapes       != "NONE": text_prompt += self.SCENERY_LANDSCAPES[landscapes]
-            if urban            != "NONE": text_prompt += self.SCENERY_URBAN[urban]
-            if interior         != "NONE": text_prompt += self.SCENERY_INTERIOR[interior]
-            if fantasy          != "NONE": text_prompt += self.SCENERY_FANTASY[fantasy]
-            if futuristic       != "NONE": text_prompt += self.SCENERY_FUTURISTIC[futuristic]
-            if abstract         != "NONE": text_prompt += self.SCENERY_ABSTRACT[abstract]
-            if miscellaneous    != "NONE": text_prompt += self.SCENERY_MISCELLANEOUS[miscellaneous]
-            
-            system_instruction = load_agent("scene")
-
-            try:           
-                # Call Gemini API
-                response = call_gemini_text_api(
-                    text_prompt,
-                    pil_image,  
-                    system_instruction,
-                    api_key, 
-                    model, 
-                    max_tokens, 
-                    temperature
-                )
-                               
-                response = response.replace("*", "")
-                response = response.replace("#", "")
-                response = response.upper()
-                
-                return (response, markdown)
-                
-            except Exception as e:
-                
-                error_msg = f"Error processing request: {str(e)}"
-                print(error_msg)
-                return (response, markdown)
                          
 #################################################
 ####################DISPLAY######################
@@ -2794,7 +2899,7 @@ class GeminiScenery:
 
 class GeminiResponse:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/ION"
     
     DESCRIPTION = "Gemini Response Node's objective is to display other Gemini nodes's outputs."
     
@@ -2833,7 +2938,7 @@ class GeminiResponse:
 
 class GeminiMarkdown:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/ION"
     
     DESCRIPTION = "Displays markdown text."
     
@@ -2866,7 +2971,7 @@ class GeminiMarkdown:
 
 class GeminiInstruct:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/ION"
     
     DESCRIPTION = "Gemini Instruct Node's objective is to provide agent instructions for other Gemini Nodes's system instruction input slots."
     
@@ -2910,54 +3015,56 @@ class GeminiInstruct:
 
 # Required mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
-    "Gemini Question": GeminiQuestion,
+    "Gemini Question":  GeminiQuestion,
     "Gemini Operation": GeminiOperation,
     "Gemini Translate": GeminiTranslate,
-    "Gemini Imagen": GeminiImagen,
-    "Gemini Prompter": GeminiPrompter,
-    "Gemini Condense": GeminiCondense,
-    "Gemini Vision": GeminiVision,
-    "Gemini Motion": GeminiMotion,
-    "Gemini Portrait": GeminiPortrait,
-    "Gemini Face": GeminiFace,
-    "Gemini Body": GeminiBody,
-    "Gemini Form": GeminiForm,
-    "Gemini Cloth": GeminiCloth,
-    "Gemini Makeup": GeminiMakeup,    
-    "Gemini Backdrop": GeminiBackdrop,
-    "Gemini Compose": GeminiCompose,
-    "Gemini Subject": GeminiSubject,
-    "Gemini Scenery": GeminiScenery,
-    "Gemini Camera": GeminiCamera,
-    "Gemini Light": GeminiLight,
-    "Gemini Style": GeminiStyle,
+    "Gemini Imagen":    GeminiImagen,
+    "Gemini Speech":    GeminiSpeech,
+    "Gemini Vision":    GeminiVision,
+    "Gemini Motion":    GeminiMotion,
+    "Gemini Prompter":  GeminiPrompter,
+    "Gemini Condense":  GeminiCondense,
+    "Gemini Portrait":  GeminiPortrait,
+    "Gemini Face":      GeminiFace,
+    "Gemini Body":      GeminiBody,
+    "Gemini Form":      GeminiForm,
+    "Gemini Cloth":     GeminiCloth,
+    "Gemini Makeup":    GeminiMakeup,    
+    "Gemini Backdrop":  GeminiBackdrop,
+    "Gemini Compose":   GeminiCompose,
+    "Gemini Subject":   GeminiSubject,
+    "Gemini Scenery":   GeminiScenery,
+    "Gemini Camera":    GeminiCamera,
+    "Gemini Light":     GeminiLight,
+    "Gemini Style":     GeminiStyle,
     "Gemini Response":  GeminiResponse,
     "Gemini Markdown":  GeminiMarkdown,
     "Gemini Instruct":  GeminiInstruct    
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Gemini Question": node_prefix() + " Gemini Question",
+    "Gemini Question":  node_prefix() + " Gemini Question",
     "Gemini Operation": node_prefix() + " Gemini Operation",
     "Gemini Translate": node_prefix() + " Gemini Translate",
-    "Gemini Imagen": node_prefix() + " Gemini Imagen",
-    "Gemini Prompter": node_prefix() + " Gemini Prompter", 
-    "Gemini Condense": node_prefix() + " Gemini Condense", 
-    "Gemini Vision": node_prefix() + " Gemini Vision",
-    "Gemini Motion": node_prefix() + " Gemini Motion",
-    "Gemini Portrait": node_prefix() + " Gemini Portrait",
-    "Gemini Face": node_prefix() + " Gemini Face",
-    "Gemini Body": node_prefix() + " Gemini Body",
-    "Gemini Form": node_prefix() + " Gemini Form",
-    "Gemini Cloth": node_prefix() + " Gemini Cloth",
-    "Gemini Makeup": node_prefix() + " Gemini Makeup",
-    "Gemini Backdrop": node_prefix() + " Gemini Backdrop",
-    "Gemini Compose": node_prefix() + " Gemini Compose",
-    "Gemini Subject": node_prefix() + " Gemini Subject",
-    "Gemini Scenery": node_prefix() + " Gemini Scenery",
-    "Gemini Camera": node_prefix() + " Gemini Camera",
-    "Gemini Light": node_prefix() + " Gemini Light",
-    "Gemini Style": node_prefix() + " Gemini Style",
+    "Gemini Imagen":    node_prefix() + " Gemini Imagen",
+    "Gemini Speech":    node_prefix() + " Gemini Speech",
+    "Gemini Vision":    node_prefix() + " Gemini Vision",
+    "Gemini Motion":    node_prefix() + " Gemini Motion",
+    "Gemini Prompter":  node_prefix() + " Gemini Prompter", 
+    "Gemini Condense":  node_prefix() + " Gemini Condense", 
+    "Gemini Portrait":  node_prefix() + " Gemini Portrait",
+    "Gemini Face":      node_prefix() + " Gemini Face",
+    "Gemini Body":      node_prefix() + " Gemini Body",
+    "Gemini Form":      node_prefix() + " Gemini Form",
+    "Gemini Cloth":     node_prefix() + " Gemini Cloth",
+    "Gemini Makeup":    node_prefix() + " Gemini Makeup",
+    "Gemini Backdrop":  node_prefix() + " Gemini Backdrop",
+    "Gemini Compose":   node_prefix() + " Gemini Compose",
+    "Gemini Subject":   node_prefix() + " Gemini Subject",
+    "Gemini Scenery":   node_prefix() + " Gemini Scenery",
+    "Gemini Camera":    node_prefix() + " Gemini Camera",
+    "Gemini Light":     node_prefix() + " Gemini Light",
+    "Gemini Style":     node_prefix() + " Gemini Style",
     "Gemini Response":  node_prefix() + " Gemini Response",
     "Gemini Markdown":  node_prefix() + " Gemini Markdown",
     "Gemini Instruct":  node_prefix() + " Gemini Instruct"    
