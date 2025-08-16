@@ -1,15 +1,29 @@
 import os
 import torch
 import numpy as np
+
+import base64
 from io import BytesIO
 from PIL import Image
+import soundfile as sf
 
 from google import genai
 from google.genai import types
 
 from ..core.node import node_path
 
-def call_gemini_text_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
+def call_gemini_text_api(*args, **kwargs):
+    
+    text_prompt         = kwargs.get('text_prompt')
+    image               = kwargs.get('image')
+    system_instruction  = kwargs.get('system_instruction')
+    api_key             = kwargs.get('api_key')
+    model               = kwargs.get('model')
+    max_tokens          = kwargs.get('max_tokens')
+    temperature         = kwargs.get('temperature')
+    seed                = kwargs.get('seed')
+    top_k               = kwargs.get('top_k')
+    top_p               = kwargs.get('top_p')
    
     client = genai.Client(api_key=api_key)
     
@@ -18,9 +32,18 @@ def call_gemini_text_api(text_prompt, image, system_instruction, api_key, model,
     if temperature is not None:
         temp_value = max(0.0, min(2.0, float(temperature)))
         generation_config['temperature'] = temp_value
+        
+    if top_k is not None:
+        generation_config['top_k'] = int(top_k)
+
+    if top_p is not None:
+        generation_config['top_p'] = float(top_p)
     
     if max_tokens is not None and int(max_tokens) > 0:
         generation_config['max_output_tokens'] = int(max_tokens)
+        
+    if seed is not None:
+        generation_config['seed'] = normalize_seed(seed)
         
     if system_instruction and system_instruction.strip():
         full_prompt = f"System: {system_instruction.strip()}\n\nUser: {text_prompt}"
@@ -126,6 +149,73 @@ def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model
     response = " ".join(text_parts) if text_parts else None
    
     return (tensor, response)
+    
+def call_gemini_tts_api(text_prompt, voice, api_key, temperature=None):
+    
+    client = genai.Client(api_key=api_key)
+    
+    generation_config = {
+        'response_modalities': ['AUDIO'],  
+        "speech_config": types.SpeechConfig(
+            voice_config=types.VoiceConfig(
+                prebuilt_voice_config=types.PrebuiltVoiceConfig(
+                    voice_name=voice,
+                )
+            )
+        )
+    }
+    
+    if temperature is not None:
+        temp_value = max(0.0, min(2.0, float(temperature)))
+        generation_config['temperature'] = temp_value
+    
+    try:
+        
+        api_response = client.models.generate_content(
+            model="gemini-2.5-flash-preview-tts",
+            contents=[text_prompt],
+            config=types.GenerateContentConfig(**generation_config)
+        )
+        
+        raw_audio_bytes = None
+        
+        for part in api_response.candidates[0].content.parts:
+            
+            if part.inline_data and part.inline_data.data:
+                
+                raw_audio_bytes = part.inline_data.data
+                break
+    
+        if raw_audio_bytes is None:
+            print("Error: Gemini API did not return audio data.")
+            return None
+
+  
+        sample_rate = 24000
+        audio_data, _ = sf.read(
+            BytesIO(raw_audio_bytes), 
+            samplerate=sample_rate, 
+            channels=1, 
+            format='RAW', 
+            subtype='PCM_16'
+        )
+
+   
+        audio_tensor = torch.from_numpy(audio_data.astype(np.float32))
+   
+        max_val = torch.max(torch.abs(audio_tensor))
+        
+        if max_val > 0:
+            audio_tensor = audio_tensor / max_val
+
+        audio_tensor = audio_tensor.unsqueeze(0).unsqueeze(0)
+
+        return {"waveform": audio_tensor, "sample_rate": sample_rate}
+
+    except Exception as e:
+        
+        print(f"!!! An exception occurred during Gemini TTS API call: {e}")
+        return None
 
 def gemini_api_parameters():
     
@@ -135,11 +225,11 @@ def gemini_api_parameters():
             "default": "",
             "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
         }),
-        "model": (["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite"], {
+        "model": (["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"], {
             "default": "gemini-2.5-flash"
         }),
         "max_tokens": ("INT", {
-            "default": 2000,
+            "default": 5000,
             "min": 1,
             "max": 8192,
             "step": 1,
@@ -171,3 +261,10 @@ def load_agent(agent):
         
         print(f"Error loading text file: {e}")
         return None
+        
+def normalize_seed(seed):
+    
+    seed_max = 2147483647
+    seed_int = abs(int(seed))
+    
+    return seed_int % (seed_max + 1)
