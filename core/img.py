@@ -1,40 +1,9 @@
 import torch
 import numpy as np
 from PIL import Image
-import io
-import base64
+import soundfile as sf
+from io import BytesIO
 
-def tensor_to_base64(tensor):
-
-    # Take first image from batch if needed
-    if len(tensor.shape) == 4:
-        tensor = tensor[0]
-    
-    # Convert to numpy
-    numpy_image = tensor.cpu().numpy()
-    
-    # Ensure values are in 0-255 range
-    if numpy_image.max() <= 1.0:
-        numpy_image = (numpy_image * 255).astype(np.uint8)
-    else:
-        numpy_image = numpy_image.astype(np.uint8)
-    
-    # Create PIL Image (still needed for JPEG encoding)
-    pil_image = Image.fromarray(numpy_image)
-    
-    # Convert to base64
-    buffered = io.BytesIO()
-    
-    if pil_image.mode != 'RGB':
-        pil_image = pil_image.convert('RGB')
-    
-    pil_image.save(buffered, format="JPEG")
-    
-    img = base64.b64encode(buffered.getvalue()).decode()
-    
-    return img
-    
-    
 def tensor_to_pil_image(tensor):
  
     # Handle batch dimension if present
@@ -60,6 +29,43 @@ def tensor_to_pil_image(tensor):
     else:
         # Handle grayscale or other formats
         return Image.fromarray(tensor.squeeze(), 'L')
+        
+def gemini_image_to_tensor(image):
+    
+    gemini_image = Image.open(BytesIO((image)))
+            
+    if gemini_image.mode != 'RGB':
+        
+        gemini_image = gemini_image.convert('RGB')
+    
+    image_np = np.array(gemini_image).astype(np.float32) / 255.0
+    image_tensor = torch.from_numpy(image_np)[None,]
+    
+    return image_tensor
+    
+def gemini_tts_to_tensor(audio):
+    
+        sample_rate = 24000
+        
+        audio_data, _ = sf.read(
+            BytesIO(audio), 
+            samplerate=sample_rate, 
+            channels=1, 
+            format='RAW', 
+            subtype='PCM_16'
+        )
+   
+        audio_tensor = torch.from_numpy(audio_data.astype(np.float32))
+   
+        max_val = torch.max(torch.abs(audio_tensor))
+        
+        if max_val > 0:
+            
+            audio_tensor = audio_tensor / max_val
+
+        audio_tensor = audio_tensor.unsqueeze(0).unsqueeze(0)
+        
+        return audio_tensor, sample_rate
         
 def resize_image_shortest(image,size):
     

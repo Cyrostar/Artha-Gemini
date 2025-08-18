@@ -1,16 +1,11 @@
 import os
-import torch
-import numpy as np
-
-import base64
-from io import BytesIO
-from PIL import Image
-import soundfile as sf
 
 from google import genai
 from google.genai import types
 
 from ..core.node import node_path
+from ..core.img import gemini_image_to_tensor
+from ..core.img import gemini_tts_to_tensor
 
 def call_gemini_text_api(*args, **kwargs):
     
@@ -84,6 +79,9 @@ def call_gemini_text_api(*args, **kwargs):
         
 def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model, max_tokens, temperature):
 
+    tensor = None
+    response = None
+    
     client = genai.Client(api_key=api_key)
     
     generation_config = {
@@ -126,8 +124,7 @@ def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model
     )
     
     text_parts = []
-    image_tensor = None
-    
+       
     for part in api_response.candidates[0].content.parts:
         
         if part.text is not None:
@@ -136,17 +133,11 @@ def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model
             
         elif part.inline_data is not None:
             
-            generated_image = Image.open(BytesIO((part.inline_data.data)))
-            
-            if generated_image.mode != 'RGB':
-                
-                generated_image = generated_image.convert('RGB')
-            
-            image_np = np.array(generated_image).astype(np.float32) / 255.0
-            image_tensor = torch.from_numpy(image_np)[None,]  # Add batch dimension
+            tensor = gemini_image_to_tensor(part.inline_data.data)
+    
+    if text_parts:
         
-    tensor = image_tensor if image_tensor is not None else None
-    response = " ".join(text_parts) if text_parts else None
+        response = " ".join(text_parts)
    
     return (tensor, response)
     
@@ -187,28 +178,11 @@ def call_gemini_tts_api(text_prompt, voice, api_key, temperature=None):
                 break
     
         if raw_audio_bytes is None:
+            
             print("Error: Gemini API did not return audio data.")
             return None
 
-  
-        sample_rate = 24000
-        audio_data, _ = sf.read(
-            BytesIO(raw_audio_bytes), 
-            samplerate=sample_rate, 
-            channels=1, 
-            format='RAW', 
-            subtype='PCM_16'
-        )
-
-   
-        audio_tensor = torch.from_numpy(audio_data.astype(np.float32))
-   
-        max_val = torch.max(torch.abs(audio_tensor))
-        
-        if max_val > 0:
-            audio_tensor = audio_tensor / max_val
-
-        audio_tensor = audio_tensor.unsqueeze(0).unsqueeze(0)
+        audio_tensor, sample_rate = gemini_tts_to_tensor(raw_audio_bytes)
 
         return {"waveform": audio_tensor, "sample_rate": sample_rate}
 
