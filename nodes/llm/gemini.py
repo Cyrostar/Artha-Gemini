@@ -20,7 +20,7 @@ from ...core.img import tensor_to_pil_image, resize_image_shortest
 
 class GeminiQuestion:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Question node can be used to ask questions "
     DESCRIPTION += "though the context will not be preserved as "
     DESCRIPTION += "this node is not suitable for dialogue purposes."
@@ -90,7 +90,7 @@ class GeminiQuestion:
 
 class GeminiOperation:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Operation node can be used to make "
     DESCRIPTION += "changes on the source text like replacing, "
     DESCRIPTION += "removing parts and other text operations."
@@ -166,7 +166,7 @@ class GeminiOperation:
 
 class GeminiTranslate:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Translate node can be used to translate "
     DESCRIPTION += "one language to another."
     
@@ -242,7 +242,7 @@ class GeminiTranslate:
 
 class GeminiImagen:
     
-    CATEGORY = main_cetegory() + "/IMG"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Imagen node is for image generation and modification."
     
     @classmethod
@@ -352,7 +352,7 @@ class GeminiImagen:
 
 class GeminiSpeech:
     
-    CATEGORY = main_cetegory() + "/TTS"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Generates speech from text using the Gemini TTS model."
     
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -424,7 +424,7 @@ class GeminiSpeech:
 
 class GeminiVision:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Vision node outputs a rich description "
     DESCRIPTION += "of the input image."
     
@@ -506,7 +506,7 @@ class GeminiVision:
 
 class GeminiMotion:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Vision node outputs a rich description "
     DESCRIPTION += "of the input video. If the video is too large "
     DESCRIPTION += "in file size, the built-in resizer can be used "
@@ -611,7 +611,7 @@ class GeminiMotion:
 
 class GeminiPrompter:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     
     DESCRIPTION = "Gemini Prompter node enriches the content of your prompt."
     
@@ -696,7 +696,7 @@ class GeminiPrompter:
 
 class GeminiCondense:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Gemini Question node condenses a propt to a target word count preserving the concept."
     
     def __init__(self):
@@ -783,7 +783,7 @@ class GeminiCondense:
 
 class GeminiPortrait:
      
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes a character. "
     DESCRIPTION += "When no image connected, output is crafted by the parameters. "
     DESCRIPTION += "If image input is active, prompt is crafted from the image details. "
@@ -1107,7 +1107,7 @@ class GeminiPortrait:
 
 class GeminiFace:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes the face structure of the subject."
              
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1285,7 +1285,7 @@ class GeminiFace:
 
 class GeminiBody:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes the body structure of the subject."
     
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1445,7 +1445,7 @@ class GeminiBody:
 
 class GeminiForm:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes fitness of the subject."
     
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1578,7 +1578,7 @@ class GeminiForm:
 
 class GeminiCloth:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes the clothing of the subject."
     
     @classmethod
@@ -1656,7 +1656,7 @@ class GeminiCloth:
 
 class GeminiMakeup:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes the make-up of the subject."
     
     @classmethod
@@ -1734,7 +1734,7 @@ class GeminiMakeup:
 
 class GeminiBackdrop:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes the background of an image."
     
     @classmethod
@@ -1814,7 +1814,7 @@ class GeminiBackdrop:
 
 class GeminiCompose:
      
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Describes a character. "
     DESCRIPTION += "When no image connected, output is crafted by the parameters. "
     DESCRIPTION += "If image input is active, prompt is crafted from the image details. "
@@ -2131,7 +2131,7 @@ class GeminiCompose:
 
 class GeminiSubject:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Subject settings for image or video prompting."
     DESCRIPTION += "If use image is selected the setting are fetched "
     DESCRIPTION += "from the uploaded image by Gemini Vision. "
@@ -2237,7 +2237,7 @@ class GeminiSubject:
 
 class GeminiScenery:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Scene settings for image or video prompting."
     DESCRIPTION += "If use image is selected the setting are fetched "
     DESCRIPTION += "from the uploaded image by Gemini Vision. "
@@ -2409,7 +2409,7 @@ class GeminiScenery:
 
 class GeminiCamera:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Camera settings for image or video prompting."
     DESCRIPTION += "If use image is selected the setting are fetched "
     DESCRIPTION += "from the uploaded image by Gemini Vision. "
@@ -2604,7 +2604,7 @@ class GeminiCamera:
 
 class GeminiLight:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Light settings for image or video prompting."
     DESCRIPTION += "If use image is selected the setting are fetched "
     DESCRIPTION += "from the uploaded image by Gemini Vision. "
@@ -2756,7 +2756,7 @@ class GeminiLight:
 
 class GeminiStyle:
     
-    CATEGORY = main_cetegory() + "/LLM"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     DESCRIPTION = "Style settings for image or video prompting."
     DESCRIPTION += "If use image is selected the setting are fetched "
     DESCRIPTION += "from the uploaded image by Gemini Vision. "
@@ -2899,7 +2899,7 @@ class GeminiStyle:
 
 class GeminiResponse:
     
-    CATEGORY = main_cetegory() + "/ION"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     
     DESCRIPTION = "Gemini Response Node's objective is to display other Gemini nodes's outputs."
     
@@ -2938,7 +2938,7 @@ class GeminiResponse:
 
 class GeminiMarkdown:
     
-    CATEGORY = main_cetegory() + "/ION"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     
     DESCRIPTION = "Displays markdown text."
     
@@ -2971,7 +2971,7 @@ class GeminiMarkdown:
 
 class GeminiInstruct:
     
-    CATEGORY = main_cetegory() + "/ION"
+    CATEGORY = main_cetegory() + "/LLM/GEMINI"
     
     DESCRIPTION = "Gemini Instruct Node's objective is to provide agent instructions for other Gemini Nodes's system instruction input slots."
     
