@@ -1,6 +1,28 @@
 {
-	
     "gemini_api_key": "",
-	"openai_api_key": ""
 
+    "gemini_base_model": [
+        "gemini-2.5-pro",
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash",
+        "gemini-2.0-flash-lite"
+    ],
+    "gemini_base_model_default": "gemini-2.5-flash",
+
+    "gemini_image_model": [
+        "gemini-2.0-flash-preview-image-generation"
+    ],
+    "gemini_image_model_default": "gemini-2.0-flash-preview-image-generation",
+
+    "gemini_video_model": [
+        "veo-3.0-generate-preview",
+        "veo-2.0-generate-preview"
+    ],
+    "gemini_video_model_default": "veo-3.0-generate-preview",
+
+    "gemini_tts_model": [
+        "gemini-2.5-flash-preview-tts"
+    ],
+    "gemini_tts_model_default": "gemini-2.5-flash-preview-tts"
 }
