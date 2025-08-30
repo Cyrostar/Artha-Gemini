@@ -255,28 +255,7 @@ class GeminiImagen:
                     "multiline": True,
                     "default": "A cat with a hat"
                 }),
-                "api_key": ("STRING", {
-                    "multiline": False,
-                    "default": "",
-                    "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
-                }),
-                "model": (["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-2.0-flash-preview-image-generation"], {
-                    "default": "gemini-2.0-flash-preview-image-generation"
-                }),
-                "max_tokens": ("INT", {
-                    "default": 2000,
-                    "min": 1,
-                    "max": 8192,
-                    "step": 1,
-                    "tooltip": "For Gemini models, a token is equivalent to about 4 characters. 100 tokens is equal to about 60-80 English words."
-                }),
-                "temperature": ("FLOAT", {
-                    "default": 0.7,
-                    "min": 0.0,
-                    "max": 2.0,
-                    "step": 0.1,
-                    "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
-                }),
+                **gemini_api_parameters(model="image"),  
                 "modify_image": ("BOOLEAN", {"default": False}),
                 "image": (sorted(files), {"image_upload": True}),
             },
@@ -285,9 +264,6 @@ class GeminiImagen:
                     "forceInput": True,
                     "multiline": True
                 }),                
-            },
-            "hidden": {
-                "extra_pnginfo": "EXTRA_PNGINFO"
             }
         }
            
@@ -375,18 +351,7 @@ class GeminiSpeech:
                     "default": "A cat with a hat"
                 }),
                 "voice": (list(self.speakers.keys()), { "default": "Kore" }),
-                "api_key": ("STRING", {
-                    "multiline": False,
-                    "default": "",
-                    "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
-                }),
-                "temperature": ("FLOAT", {
-                    "default": 0.7,
-                    "min": 0.0,
-                    "max": 2.0,
-                    "step": 0.1,
-                    "tooltip": "A temperature of 0 means only the most likely tokens are selected, and there's no randomness. Conversely, a high temperature injects a high degree of randomness into the tokens selected by the model, leading to more unexpected, surprising model responses."
-                }),
+                **gemini_api_parameters(model="tts"),  
             },
         }
            
@@ -394,7 +359,7 @@ class GeminiSpeech:
     RETURN_NAMES = ("audio",)
     FUNCTION = "artha_main"
 
-    def artha_main(self, text_prompt, voice, api_key, temperature):
+    def artha_main(self, text_prompt, voice, api_key, model, max_tokens, temperature):
         
         audio = None
         
@@ -415,6 +380,7 @@ class GeminiSpeech:
             text_prompt,
             voice,
             api_key, 
+            model,
             temperature
         )
         
