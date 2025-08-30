@@ -119,7 +119,7 @@ def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model
         contents.append(image)
         
     api_response = client.models.generate_content(
-        model="gemini-2.0-flash-preview-image-generation",
+        model=model,
         contents=contents,
         config=types.GenerateContentConfig(**generation_config)
     )
