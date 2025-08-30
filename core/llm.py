@@ -1,4 +1,5 @@
 import os
+import json
 
 from google import genai
 from google.genai import types
@@ -141,7 +142,7 @@ def call_gemini_image_api(text_prompt, image, system_instruction, api_key, model
    
     return (tensor, response)
     
-def call_gemini_tts_api(text_prompt, voice, api_key, temperature=None):
+def call_gemini_tts_api(text_prompt, voice, api_key, model, temperature=None):
     
     client = genai.Client(api_key=api_key)
     
@@ -163,7 +164,7 @@ def call_gemini_tts_api(text_prompt, voice, api_key, temperature=None):
     try:
         
         api_response = client.models.generate_content(
-            model="gemini-2.5-flash-preview-tts",
+            model=model,
             contents=[text_prompt],
             config=types.GenerateContentConfig(**generation_config)
         )
@@ -191,7 +192,32 @@ def call_gemini_tts_api(text_prompt, voice, api_key, temperature=None):
         print(f"!!! An exception occurred during Gemini TTS API call: {e}")
         return None
 
-def gemini_api_parameters():
+def gemini_api_parameters(model="general"):
+    
+    node_dir = node_path()
+    json_path = os.path.join(node_dir, "api.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        config = json.load(f)
+
+    if model == "image":
+        
+        base_models = config.get("gemini_image_model", [])
+        default_model = config.get("gemini_image_model_default", base_models[0] if base_models else "")
+        
+    elif model == "video":
+        
+        base_models = config.get("gemini_video_model", [])
+        default_model = config.get("gemini_video_model_default", base_models[0] if base_models else "")
+        
+    elif model == "tts":
+        
+        base_models = config.get("gemini_tts_model", [])
+        default_model = config.get("gemini_tts_model_default", base_models[0] if base_models else "")
+        
+    else:
+        
+        base_models = config.get("gemini_base_model", [])
+        default_model = config.get("gemini_base_model_default", base_models[0] if base_models else "")
     
     api_parameters = {
         "api_key": ("STRING", {
@@ -199,8 +225,8 @@ def gemini_api_parameters():
             "default": "",
             "tooltip": "API key will be visible in plain text. Consider adding your api to the api.json located inside this custom node folder."
         }),
-        "model": (["gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"], {
-            "default": "gemini-2.5-flash"
+        "model": (base_models, {
+            "default": default_model
         }),
         "max_tokens": ("INT", {
             "default": 5000,
